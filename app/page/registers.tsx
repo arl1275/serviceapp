@@ -1,16 +1,69 @@
-import { View, Text } from "react-native";
+import { View, Text, TextInput, FlatList } from "react-native";
 import { Headsheetcard } from "../../app/components/cardhead";
 import { NavbarRegister } from "../../app/components/navbar.registers";
+import { HeadSheet, getHeadSheets, filterHeadSheetsByTitle } from "../../app/storage/headservice";
+import { useState, useEffect, useCallback } from "react";
+import { styles } from "../../assets/styles/styles";
 
 export const RegistrosPage = () => {
-  return (
-    <View style={{ flex: 1, marginTop : 5, alignItems: "center"}}>
-      <View style={{ width: "95%", justifyContent: "center", alignItems: "center" }}>
-        <View>
-            <NavbarRegister/>
-        </View>
+  const [dataheadsheet, setdataheadsheet] = useState<HeadSheet[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-        <Headsheetcard head="HONDUCAFE"  des="Departamento químico de Honducafe."/>
+  // Carga inicial de los registros
+  const UpdateList = useCallback(async () => {
+    try {
+      const data = await getHeadSheets();
+      setdataheadsheet(data);
+    } catch (error) {
+      console.error("Error al cargar los registros:", error);
+    }
+  }, []);
+
+  // Filtra los registros por el término de búsqueda
+  const handleSearch = async (term: string) => {
+    setSearchTerm(term);
+    if (term.trim() === "") {
+      // Si no hay término de búsqueda, muestra todos los registros
+      UpdateList();
+    } else {
+      const filteredData = await filterHeadSheetsByTitle(term);
+      setdataheadsheet(filteredData);
+    }
+  };
+
+  useEffect(() => {
+    UpdateList();
+  }, [UpdateList]);
+
+  return (
+    <View style={{ flex: 1, marginTop: 0, alignItems: "center" }}>
+      <View style={{display : 'flex', flexDirection : 'column',justifyContent: "center", alignItems: "center" }}>
+
+        <View style={[ styles.rowContainer]}>
+          <TextInput placeholder="BUSCAR"
+          placeholderTextColor={'grey'}
+          value={searchTerm} 
+          onChangeText={handleSearch} 
+          style={[styles.textInput]}/>
+          <NavbarRegister onUpdate={UpdateList} />
+        </View>
+        
+       
+
+        {dataheadsheet.length > 0 ? (
+          <FlatList
+            data={dataheadsheet}
+            style={{ borderRadius : 5, width : '95%'}}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+            <Headsheetcard head={item.title} des={item.description} />  
+            )}
+          />
+        ) : (
+          <Text style={{ fontSize: 20, color: "#000" }}>
+            NO HAY REGISTROS
+          </Text>
+        )}
       </View>
     </View>
   );

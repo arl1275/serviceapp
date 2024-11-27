@@ -24,7 +24,8 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="home" component={Homepage} options={{title: "Inicio", headerShown: false}} />
-        <Stack.Screen name="registros" component={RegistrosPage} options={{title: "REGISTROS", headerShown: true}} />
+        <Stack.Screen name="registros" component={RegistrosPage} 
+        options={{title: "CLIENTES", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
       </Stack.Navigator>
   );
 }

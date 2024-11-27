@@ -17,9 +17,9 @@ export const Headsheetcard = ({ head, des }: HeadsheetCardProps) => {
   }, [head, des]); // Agregar dependencias para evitar renderizados innecesarios
 
   return (
-    <View style={[styles.headsheet, { margin: 5 }]}>
+    <View style={[styles.headsheet, { marginBottom : 0 }]}>
       <View>
-        <Text style={[styles.bigtitle]}>{title || "TITULO"}</Text>
+        <Text style={[styles.bigtitle, {marginBottom : 10}]}>{title || "TITULO"}</Text>
         <Text style={[styles.title, {color : 'grey'}]}>{description || "Descripcion"}</Text>
       </View>
     </View>

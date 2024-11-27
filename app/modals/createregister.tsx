@@ -1,22 +1,31 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
 import { styles } from "../../assets/styles/styles";
+import { HeadSheet, addHeadSheet } from "../../app/storage/headservice"; 
 
 interface ModalCreateRegisterProps {
   vis: boolean;
   closeModal: () => void;
 }
 
-export const ModalCreateRegister = ({
-  vis,
-  closeModal,
-}: ModalCreateRegisterProps) => {
+export const ModalCreateRegister = ({ vis, closeModal}: ModalCreateRegisterProps) => {
   const [title, settitle] = useState(String);
   const [description, setDescription] = useState(String);
 
   const _Onclose_ = () => {
     closeModal();
   };
+
+  const _CreateRegister_ = async () =>{
+    let data : HeadSheet ={
+        id : Date.now(),//parseInt(new Date().toJSON()),
+        title : title,
+        description : description,
+        fecha : new Date().getDate().toString()
+    }
+    await addHeadSheet(data);
+    closeModal();
+  }
 
   return (
     <Modal
@@ -61,13 +70,8 @@ export const ModalCreateRegister = ({
           </View>
 
           <View style={{ margin: 5, marginTop : 10 }}>
-            <TouchableOpacity
-              style={{
-                borderRadius: 5,
-                backgroundColor: "#3949ab",
-                width: " 100%",
-              }}
-            >
+            <TouchableOpacity style={{ borderRadius: 5, backgroundColor: "#3949ab",width: " 100%",}}
+             onPress={ async ()=> await _CreateRegister_()}>
               <Text style={[styles.title, { color: "white", textAlign : 'center', margin : 10 }]}>CREAR</Text>
             </TouchableOpacity>
           </View>

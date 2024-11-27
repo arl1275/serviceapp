@@ -14,26 +14,31 @@ export const Homepage: React.FC = () => {
   return (
     <View style={{height : '100%'}}>
     <Ionicons name="settings" size={25} color="grey" style={{ margin: 15 }} />
-      <View style={{ position: "absolute", bottom: 5 }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("registros")}
-          style={[styles.card, { margin: 3, backgroundColor: "black" }]}
+
+      <View style={{ position: "absolute", bottom: 10, margin : 10 }}>
+      <TouchableOpacity
+          style={[styles.headsheet, { margin: 0, backgroundColor: "white" }]}
         >
           <Text
-            style={[styles.bigtitle, { textAlign: "center", color: "white" }]}
+            style={[styles.bigtitle, { textAlign: "center", color: "black" }]}
           >
-            REGISTROS
+            FACTURACION
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.card, { margin: 3, backgroundColor: "black" }]}
-        >
-          <Text
-            style={[styles.bigtitle, { textAlign: "center", color: "white" }]}
-          >
+      <TouchableOpacity  style={[styles.headsheet, { margin: 0, backgroundColor: "#a3e4d7" }]} >
+          <Text  style={[styles.bigtitle, { textAlign: "center", color: "white" }]}>
             REPORTERIA
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("registros")}
+          style={[styles.headsheet, { margin: 0, backgroundColor: "#b3e5fc" }]}
+        >
+          <Text style={[styles.bigtitle, { textAlign: "center", color: "white" }]} >
+            CLIENTES
+          </Text>
+        </TouchableOpacity>
+       
       </View>
      
     </View>
