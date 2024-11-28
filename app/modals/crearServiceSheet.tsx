@@ -1,38 +1,52 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
 import { styles } from "../../assets/styles/styles";
-import { HeadSheet, addHeadSheet } from "../../app/storage/headservice"; 
+import { ServiceSheet, addServiceSheet} from "../../app/storage/sheetservice";
+import { DropboxClients } from "../../app/components/dropboxclients";
 
 interface ModalCreateRegisterProps {
   vis: boolean;
   closeModal: () => void;
+  onUpdate : () => void;
 }
-
-export const ModalCreateRegister = ({ vis, closeModal}: ModalCreateRegisterProps) => {
+function getFormattedDate(): string {
+    const now = new Date();
+  
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // Mes (0-11, sumamos 1)
+    const day = String(now.getDate()).padStart(2, "0"); // Día del mes
+  
+    const hours = String(now.getHours()).padStart(2, "0"); // Horas
+    const minutes = String(now.getMinutes()).padStart(2, "0"); // Minutos
+    const seconds = String(now.getSeconds()).padStart(2, "0"); // Segundos
+  
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+  
+export const ModalCreateRegisterServiceSheet = ({ vis, closeModal, onUpdate}: ModalCreateRegisterProps) => {
   const [title, settitle] = useState(String);
   const [description, setDescription] = useState(String);
-  const [_correo, setCorre] = useState("");
-  const [_contacto, setContacto ] = useState("");
-  const [_address, setAddress] = useState("");
-  const [_rtn, setRtn] = useState("");
-
+  const [_cliente, setCliente] = useState("");
+  const [_clientedetalle, setClienteDetalle ] = useState("");
+  const [_isactive, setIsactive] = useState(Boolean);
+ 
+  const _isActiveDropBox_ = () =>{setIsactive(!_isactive)};
   const _Onclose_ = () => {
+    onUpdate();
     closeModal();
   };
 
   const _CreateRegister_ = async () =>{
-    let data : HeadSheet ={
-        id : Date.now(),
-        title : title,
-        description : description,
-        fecha : new Date().getDate().toString(),
-        correo : _correo,
-        contacto : _contacto,
-        address : _address,
-        rtn : _rtn
+    let data : ServiceSheet ={
+        id: Date.now(), // ID único generado automáticamente
+        title: title,
+        fecha: getFormattedDate(), // Fecha generada automáticamente
+        cliente : _cliente,
+        cliente_detalle : _clientedetalle,
+        description : description
     }
-    await addHeadSheet(data);
-    closeModal();
+    await addServiceSheet(data);
+    _Onclose_();
   }
 
   return (
@@ -73,24 +87,17 @@ export const ModalCreateRegister = ({ vis, closeModal}: ModalCreateRegisterProps
             <TextInput placeholder="Titulo" onChangeText={(e) => settitle(e)} />
           </View>
 
+          <View onPointerEnter={_isActiveDropBox_}
+           style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5, padding : 0, height : 55}}>
+            <DropboxClients selectedvalue={setCliente} isactive={_isactive}/>
+          </View>
+
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5 }}>
+            <TextInput placeholder="Cliente Detalle" onChangeText={(e) => setClienteDetalle(e)}/>
+          </View>
+
           <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
             <TextInput placeholder="Descripcion" onChangeText={(e) => setDescription(e)}/>
-          </View>
-
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
-            <TextInput placeholder="Correo" onChangeText={(e) => setCorre(e)}/>
-          </View>
-
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
-            <TextInput placeholder="Contacto" onChangeText={(e) => setContacto(e)}/>
-          </View>
-
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
-            <TextInput placeholder="Direccion" onChangeText={(e) => setAddress(e)}/>
-          </View>
-
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
-            <TextInput placeholder="RTN" onChangeText={(e) => setRtn(e)}/>
           </View>
 
           <View style={{ margin: 5, marginTop : 10 }}>

@@ -25,7 +25,8 @@ export const Homepage: React.FC = () => {
             FACTURACION
           </Text>
         </TouchableOpacity>
-      <TouchableOpacity  style={[styles.headsheet, { margin: 0, backgroundColor: "#a3e4d7" }]} >
+      <TouchableOpacity  style={[styles.headsheet, { margin: 0, backgroundColor: "#a3e4d7" }]} 
+      onPress={()=> navigation.navigate('reporteria')}>
           <Text  style={[styles.bigtitle, { textAlign: "center", color: "white" }]}>
             REPORTERIA
           </Text>

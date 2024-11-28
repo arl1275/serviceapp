@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { View, Text } from "react-native";
+import { ReporteriaPage } from "./page/reporteria";
 import { Homepage } from "./page/home";
 import { RegistrosPage } from "./page/registers";
 
@@ -9,6 +8,7 @@ import { RegistrosPage } from "./page/registers";
 export type RootStackParamList = {
   home: undefined;
   registros : undefined;
+  reporteria : undefined;
   details: { itemId: number };
 };
 
@@ -26,6 +26,8 @@ export default function RootLayout() {
         <Stack.Screen name="home" component={Homepage} options={{title: "Inicio", headerShown: false}} />
         <Stack.Screen name="registros" component={RegistrosPage} 
         options={{title: "CLIENTES", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
+        <Stack.Screen name="reporteria" component={ReporteriaPage} 
+        options={{title: "REPORTERIA", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
       </Stack.Navigator>
   );
 }

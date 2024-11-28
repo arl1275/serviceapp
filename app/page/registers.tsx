@@ -19,11 +19,9 @@ export const RegistrosPage = () => {
     }
   }, []);
 
-  // Filtra los registros por el término de búsqueda
   const handleSearch = async (term: string) => {
     setSearchTerm(term);
     if (term.trim() === "") {
-      // Si no hay término de búsqueda, muestra todos los registros
       UpdateList();
     } else {
       const filteredData = await filterHeadSheetsByTitle(term);
@@ -56,7 +54,7 @@ export const RegistrosPage = () => {
             style={{ borderRadius : 5, width : '95%'}}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-            <Headsheetcard head={item.title} des={item.description} />  
+            <Headsheetcard head={item.title} des={item.description} contacto={item.contacto} correo={item.correo} address={item.address} rtn={item.rtn}/>  
             )}
           />
         ) : (

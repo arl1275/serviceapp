@@ -6,10 +6,10 @@ export interface HeadSheet {
   title: string;
   description: string;
   fecha: string; // Fecha generada automáticamente
-  //correo : String,
-  //contacto : String,
-  //address : string,
-  //rtn : string
+  correo : string,
+  contacto : string,
+  address : string,
+  rtn : string
 }
 
 const STORAGE_KEY = 'headSheets';

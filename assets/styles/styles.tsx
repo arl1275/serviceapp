@@ -56,4 +56,25 @@ export const styles = StyleSheet.create({
     height : '90%',
     textAlign : 'justify'
 },
+DropBoxcontainer: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+},
+Dropboxlabel: {
+  fontSize: 18,
+  marginBottom: 0,
+},
+DropBoxpicker: {
+  width: '100%',
+  height: 50,
+  borderWidth: 1,
+  borderColor: "#ccc",
+  backgroundColor: "#f8f8f8",
+},
+DropBoxselectedValue: {
+  marginTop: 20,
+  fontSize: 16,
+  fontWeight: "bold",
+},
 });
