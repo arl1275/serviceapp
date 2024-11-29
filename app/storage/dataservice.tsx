@@ -4,12 +4,12 @@ export interface dataServiceSheet {
   id: number; // ID único generado automáticamente
   title: string;
   fecha: string; // Fecha generada automáticamente
-  description : string;
-  photo : string;
-  id_service_sheet : number;
+  description: string;
+  photo: string; // Base64 de la foto
+  id_service_sheet: number;
 }
 
-const STORAGE_KEY = 'ServiceSheets';
+const STORAGE_KEY = 'dataServiceSheets';
 
 export const getServicesSheets = async (): Promise<dataServiceSheet[]> => {
   try {
@@ -21,8 +21,8 @@ export const getServicesSheets = async (): Promise<dataServiceSheet[]> => {
   }
 };
 
-// Agregar un nuevo registro
-export const addServiceSheet = async (data:dataServiceSheet): Promise<void> => {
+// Agregar un nuevo registro con una foto en base64
+export const addServiceSheet = async (data: dataServiceSheet): Promise<void> => {
   try {
     const headSheets = await getServicesSheets();
     headSheets.push(data);
@@ -32,7 +32,7 @@ export const addServiceSheet = async (data:dataServiceSheet): Promise<void> => {
   }
 };
 
-// Actualizar un registro
+// Actualizar un registro, incluyendo la foto
 export const updateServiceSheet = async (
   id: number,
   newData: Partial<dataServiceSheet>
@@ -60,7 +60,7 @@ export const deleteServiceSheet = async (id: number): Promise<void> => {
 };
 
 // Filtrar registros por título
-export const filteServiceSheetsByTitle = async (searchTerm: string): Promise<dataServiceSheet[]> => {
+export const filterServiceSheetsByTitle = async (searchTerm: string): Promise<dataServiceSheet[]> => {
   try {
     const headSheets = await getServicesSheets();
     const filteredHeadSheets = headSheets.filter((item) =>
@@ -70,5 +70,22 @@ export const filteServiceSheetsByTitle = async (searchTerm: string): Promise<dat
   } catch (error) {
     console.error('Error al filtrar los registros:', error);
     return [];
+  }
+};
+
+// Procesar una foto y almacenarla en el campo 'photo'
+export const processAndAddPhotoToSheet = async (
+  id: number,
+  photoUri: string
+): Promise<void> => {
+  try {
+    const RNFS = require('react-native-fs'); // Asegúrate de instalar esta librería
+    const base64Photo = await RNFS.readFile(photoUri, 'base64');
+
+    // Actualizar el registro con la foto en base64
+    await updateServiceSheet(id, { photo: base64Photo });
+    console.log('Foto agregada al registro exitosamente');
+  } catch (error) {
+    console.error('Error al procesar y agregar la foto:', error);
   }
 };
