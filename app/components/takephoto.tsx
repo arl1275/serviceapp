@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
+import * as FileSystem from 'expo-file-system';
 
-const TakePhotoComponent = () => {
+const SavePhotoButton = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const [photoUri, setPhotoUri] = useState<string | null>(null);
-  const cameraRef = useRef<CameraType>(null); // Ajusta esto
+  const cameraRef = useRef<Camera>();
 
-  // Solicitar permisos de cámara
+  // Solicitar permisos de la cámara
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -23,43 +23,47 @@ const TakePhotoComponent = () => {
     return <Text>No se tienen permisos para usar la cámara.</Text>;
   }
 
-  const takePhoto = async () => {
+  const takeAndSavePhoto = async () => {
     if (cameraRef.current) {
-      const photo = await cameraRef.current.;
-      setPhotoUri(photo.uri); // Guarda la URI de la foto
+      try {
+        // Toma la foto
+        const photo = await cameraRef.current.takePictureAsync();
+
+        // Define una ruta para guardar la foto
+        const fileName = `${FileSystem.documentDirectory}photo_${Date.now()}.jpg`;
+
+        // Guarda la foto en el sistema de archivos
+        await FileSystem.moveAsync({
+          from: photo.uri,
+          to: fileName,
+        });
+
+        Alert.alert('Foto Guardada', `Foto guardada en: ${fileName}`);
+      } catch (error) {
+        console.error('Error al tomar o guardar la foto:', error);
+        Alert.alert('Error', 'No se pudo guardar la foto.');
+      }
     }
   };
 
   return (
     <View style={styles.container}>
-      {!photoUri ? (
-        <Camera
-          style={styles.camera}
-          ref={(ref) => (cameraRef.current = ref)} // Asignar referencia aquí
-          type={CameraType.back}
-        >
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={takePhoto}>
-              <Text style={styles.text}>Tomar Foto</Text>
-            </TouchableOpacity>
-          </View>
-        </Camera>
-      ) : (
-        <View style={styles.preview}>
-          <Image source={{ uri: photoUri }} style={styles.photo} />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setPhotoUri(null)}
-          >
-            <Text style={styles.text}>Tomar Otra Foto</Text>
+      <Camera
+        style={styles.camera}
+        type={CameraType.back}
+        ref={cameraRef}
+      >
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={takeAndSavePhoto}>
+            <Text style={styles.text}>Guardar Foto</Text>
           </TouchableOpacity>
         </View>
-      )}
+      </Camera>
     </View>
   );
 };
 
-export default TakePhotoComponent;
+export default SavePhotoButton;
 
 const styles = StyleSheet.create({
   container: {
@@ -71,31 +75,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 30,
   },
   button: {
-    alignSelf: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 5,
+    padding: 15,
+    borderRadius: 10,
   },
   text: {
-    fontSize: 16,
     color: '#000',
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  photo: {
-    width: '90%',
-    height: '70%',
-    borderRadius: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
