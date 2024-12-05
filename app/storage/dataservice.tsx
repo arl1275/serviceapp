@@ -11,7 +11,7 @@ export interface dataServiceSheet {
 
 const STORAGE_KEY = 'dataServiceSheets';
 
-export const getServicesSheets = async (): Promise<dataServiceSheet[]> => {
+export const getdataServicesSheets = async (): Promise<dataServiceSheet[]> => {
   try {
     const storedData = await AsyncStorage.getItem(STORAGE_KEY);
     return storedData ? JSON.parse(storedData) : [];
@@ -22,9 +22,9 @@ export const getServicesSheets = async (): Promise<dataServiceSheet[]> => {
 };
 
 // Agregar un nuevo registro con una foto en base64
-export const addServiceSheet = async (data: dataServiceSheet): Promise<void> => {
+export const adddataServiceSheet = async (data: dataServiceSheet): Promise<void> => {
   try {
-    const headSheets = await getServicesSheets();
+    const headSheets = await getdataServicesSheets();
     headSheets.push(data);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(headSheets));
   } catch (error) {
@@ -33,12 +33,12 @@ export const addServiceSheet = async (data: dataServiceSheet): Promise<void> => 
 };
 
 // Actualizar un registro, incluyendo la foto
-export const updateServiceSheet = async (
+export const updatedataServiceSheet = async (
   id: number,
   newData: Partial<dataServiceSheet>
 ): Promise<void> => {
   try {
-    const headSheets = await getServicesSheets();
+    const headSheets = await getdataServicesSheets();
     const updatedHeadSheets = headSheets.map((item) =>
       item.id === id ? { ...item, ...newData } : item
     );
@@ -49,9 +49,9 @@ export const updateServiceSheet = async (
 };
 
 // Eliminar un registro
-export const deleteServiceSheet = async (id: number): Promise<void> => {
+export const deletedataServiceSheet = async (id: number): Promise<void> => {
   try {
-    const headSheets = await getServicesSheets();
+    const headSheets = await getdataServicesSheets();
     const filteredHeadSheets = headSheets.filter((item) => item.id !== id);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(filteredHeadSheets));
   } catch (error) {
@@ -62,7 +62,7 @@ export const deleteServiceSheet = async (id: number): Promise<void> => {
 // Filtrar registros por título
 export const filterServiceSheetsByTitle = async (searchTerm: string): Promise<dataServiceSheet[]> => {
   try {
-    const headSheets = await getServicesSheets();
+    const headSheets = await getdataServicesSheets();
     const filteredHeadSheets = headSheets.filter((item) =>
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) // Coincidencia parcial, ignorando mayúsculas/minúsculas
     );
@@ -83,7 +83,7 @@ export const processAndAddPhotoToSheet = async (
     const base64Photo = await RNFS.readFile(photoUri, 'base64');
 
     // Actualizar el registro con la foto en base64
-    await updateServiceSheet(id, { photo: base64Photo });
+    await updatedataServiceSheet(id, { photo: base64Photo });
     console.log('Foto agregada al registro exitosamente');
   } catch (error) {
     console.error('Error al procesar y agregar la foto:', error);
