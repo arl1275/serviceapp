@@ -21,7 +21,6 @@ export const getdataServicesSheets = async (): Promise<dataServiceSheet[]> => {
   }
 };
 
-// Agregar un nuevo registro con una foto en base64
 export const adddataServiceSheet = async (data: dataServiceSheet): Promise<void> => {
   try {
     const headSheets = await getdataServicesSheets();
@@ -32,7 +31,6 @@ export const adddataServiceSheet = async (data: dataServiceSheet): Promise<void>
   }
 };
 
-// Actualizar un registro, incluyendo la foto
 export const updatedataServiceSheet = async (
   id: number,
   newData: Partial<dataServiceSheet>

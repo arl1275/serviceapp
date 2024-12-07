@@ -3,8 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { ReporteriaPage } from "./page/reporteria";
 import { Homepage } from "./page/home";
 import { RegistrosPage } from "./page/registers";
+import { ServiceSheetDetail } from "./subpages/DetailServiceSheets";
 
-// Define los parámetros de navegación
 export type RootStackParamList = {
   home: undefined;
   registros : undefined;
@@ -12,7 +12,14 @@ export type RootStackParamList = {
   details: { itemId: number };
 };
 
+export type DetailStackParamList = {
+  homedetail : undefined;
+  detailpage : undefined;
+  details: { itemId: number };
+}
+
 const Stack = createStackNavigator<RootStackParamList>();
+const DetaildataStack = createStackNavigator<DetailStackParamList>();
 
 export default function RootLayout() {
   return (
@@ -26,8 +33,23 @@ export default function RootLayout() {
         <Stack.Screen name="home" component={Homepage} options={{title: "Inicio", headerShown: false}} />
         <Stack.Screen name="registros" component={RegistrosPage} 
         options={{title: "CLIENTES", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
-        <Stack.Screen name="reporteria" component={ReporteriaPage} 
+        <Stack.Screen name="reporteria" component={DetailLayout} 
         options={{title: "REPORTERIA", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
+
       </Stack.Navigator>
   );
+}
+
+export function DetailLayout(){
+  return(
+    <DetaildataStack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: "white" },
+      headerTintColor: "black",
+      headerTitleStyle: { fontWeight: "bold" },
+    }}>
+      <DetaildataStack.Screen name="homedetail" component={ReporteriaPage}  options={{title: "REPORTERIA", headerShown: false}}/>
+      <DetaildataStack.Screen name="detailpage" component={ServiceSheetDetail}  options={{title: "DETALLE", headerShown: false}}/>
+    </DetaildataStack.Navigator>
+  )
 }

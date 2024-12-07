@@ -2,12 +2,17 @@ import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, TextInput, Button, FlatList, Alert, StyleSheet, TouchableOpacity,} from "react-native";
 import { getServicesSheets, filteServiceSheetsByTitle, ServiceSheet} from "../storage/sheetservice"; 
 import { ModalCreateRegisterServiceSheet } from "../../app/modals/crearServiceSheet";
+import { DetailStackParamList, DetailLayout } from "../../app/_layout";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+
+type DetailPropValue = StackNavigationProp<DetailStackParamList, 'homedetail'>;
 
 export const ReporteriaPage = ()=> {
   const [serviceSheets, setServiceSheets] = useState<ServiceSheet[]>();
   const [searchTerm, setSearchTerm] = useState("");
   const [openModal, setOpenModal] = useState(Boolean);
-
+  const navigation = useNavigation<DetailPropValue>();
   const _OpenModal_ = () =>{ setOpenModal(true)}
   const _CloseModal_ = () =>{ setOpenModal(false)}
 
@@ -58,7 +63,7 @@ export const ReporteriaPage = ()=> {
         data={serviceSheets}
         keyExtractor={(item : ServiceSheet) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.sheet}>
+          <TouchableOpacity style={styles.sheet} onPress={()=> navigation.navigate('detailpage')}>
             <Text style={styles.sheetTitle}>{item.title}</Text>
             <Text>{item.fecha}</Text>
             <Text>{item.cliente}</Text>
