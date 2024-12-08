@@ -4,6 +4,7 @@ import { ReporteriaPage } from "./page/reporteria";
 import { Homepage } from "./page/home";
 import { RegistrosPage } from "./page/registers";
 import { ServiceSheetDetail } from "./subpages/DetailServiceSheets";
+import { ServiceSheet } from "./storage/sheetservice";
 
 export type RootStackParamList = {
   home: undefined;
@@ -14,7 +15,7 @@ export type RootStackParamList = {
 
 export type DetailStackParamList = {
   homedetail : undefined;
-  detailpage : undefined;
+  detailpage : {_data_ : ServiceSheet};
   details: { itemId: number };
 }
 
@@ -34,7 +35,7 @@ export default function RootLayout() {
         <Stack.Screen name="registros" component={RegistrosPage} 
         options={{title: "CLIENTES", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
         <Stack.Screen name="reporteria" component={DetailLayout} 
-        options={{title: "REPORTERIA", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
+        options={{title: "REPORTERIA", headerShown: false, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}} />
 
       </Stack.Navigator>
   );
@@ -48,8 +49,8 @@ export function DetailLayout(){
       headerTintColor: "black",
       headerTitleStyle: { fontWeight: "bold" },
     }}>
-      <DetaildataStack.Screen name="homedetail" component={ReporteriaPage}  options={{title: "REPORTERIA", headerShown: false}}/>
-      <DetaildataStack.Screen name="detailpage" component={ServiceSheetDetail}  options={{title: "DETALLE", headerShown: false}}/>
+      <DetaildataStack.Screen name="homedetail" component={ReporteriaPage}  options={{title: "REPORTERIA", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}}/>
+      <DetaildataStack.Screen name="detailpage" component={ServiceSheetDetail}  options={{title: "DETALLE", headerShown: true, headerPressColor : 'blue', headerStyle : { backgroundColor : 'white'}, headerTintColor : 'grey', headerTitleStyle : {fontSize : 17}}}/>
     </DetaildataStack.Navigator>
   )
 }

@@ -1,92 +1,69 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
-import * as FileSystem from 'expo-file-system';
+import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import React from 'react';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const SavePhotoButton = () => {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const cameraRef = useRef<Camera>();
+export function CameraComponent() {
+  const [facing, setFacing] = useState<CameraType>('back');
+  const [permission, requestPermission] = useCameraPermissions();
 
-  // Solicitar permisos de la cámara
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
-
-  if (hasPermission === null) {
-    return <Text>Solicitando permisos...</Text>;
+  if (!permission) {
+    return <View />;
   }
 
-  if (hasPermission === false) {
-    return <Text>No se tienen permisos para usar la cámara.</Text>;
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.message}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
   }
 
-  const takeAndSavePhoto = async () => {
-    if (cameraRef.current) {
-      try {
-        // Toma la foto
-        const photo = await cameraRef.current.takePictureAsync();
+  function toggleCameraFacing() {
+    setFacing(current => (current === 'back' ? 'front' : 'back'));
+  }
 
-        // Define una ruta para guardar la foto
-        const fileName = `${FileSystem.documentDirectory}photo_${Date.now()}.jpg`;
-
-        // Guarda la foto en el sistema de archivos
-        await FileSystem.moveAsync({
-          from: photo.uri,
-          to: fileName,
-        });
-
-        Alert.alert('Foto Guardada', `Foto guardada en: ${fileName}`);
-      } catch (error) {
-        console.error('Error al tomar o guardar la foto:', error);
-        Alert.alert('Error', 'No se pudo guardar la foto.');
-      }
-    }
-  };
 
   return (
     <View style={styles.container}>
-      <Camera
-        style={styles.camera}
-        type={CameraType.back}
-        ref={cameraRef}
-      >
+      <CameraView style={styles.camera} facing={facing}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takeAndSavePhoto}>
-            <Text style={styles.text}>Guardar Foto</Text>
+          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+            <Text style={styles.text}>Flip Camera</Text>
           </TouchableOpacity>
         </View>
-      </Camera>
+      </CameraView>
     </View>
   );
-};
-
-export default SavePhotoButton;
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    justifyContent: 'center',
+  },
+  message: {
+    textAlign: 'center',
+    paddingBottom: 10,
   },
   camera: {
     flex: 1,
   },
   buttonContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginBottom: 30,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    margin: 64,
   },
   button: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
+    flex: 1,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
   },
   text: {
-    color: '#000',
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
+    color: 'white',
   },
 });

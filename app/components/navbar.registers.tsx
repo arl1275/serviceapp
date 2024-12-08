@@ -19,7 +19,7 @@ export const NavbarRegister = ({onUpdate} : propsNavar) =>{
             <ModalCreateRegister vis={openmodal} closeModal={_Onclose_}/>
             
             <View>
-                <TouchableOpacity style={{ backgroundColor : 'green', borderRadius : 5, padding : 10}} onPress={()=> _Onopen_()}>
+                <TouchableOpacity style={[styles.greenButton]} onPress={()=> _Onopen_()}>
                     <Text style={[ styles.bigtitle, {color : 'white', textAlign : 'center'}]}>+ CREAR</Text>
                 </TouchableOpacity>
             </View>

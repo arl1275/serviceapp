@@ -41,13 +41,11 @@ export const ReporteriaPage = ()=> {
       const filteredData = await filteServiceSheetsByTitle(term);
       setServiceSheets(filteredData);
     }
-    
   };
 
   useEffect(()=>{
     UpdateList();
   },[UpdateList])
-
 
   return (
     <View style={styles.container}>
@@ -57,13 +55,13 @@ export const ReporteriaPage = ()=> {
           value={searchTerm} 
           onChangeText={handleSearch} 
           style={[styles.input]}/>
-      <Button title="CREAR HOJA DE SERVICIO" onPress={_OpenModal_}  color={''}/>
+      <Button title="CREAR HOJA DE SERVICIO" onPress={_OpenModal_}  color={'green'}/>
 
       <FlatList
         data={serviceSheets}
         keyExtractor={(item : ServiceSheet) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.sheet} onPress={()=> navigation.navigate('detailpage')}>
+          <TouchableOpacity style={styles.sheet} onPress={()=>{navigation.navigate('detailpage', { _data_ : item})}}>
             <Text style={styles.sheetTitle}>{item.title}</Text>
             <Text>{item.fecha}</Text>
             <Text>{item.cliente}</Text>
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 5,
     borderRadius: 5,
   },
   form: {

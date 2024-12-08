@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Modal, TextInput, Alert } from "react-native";
 import { styles } from "../../assets/styles/styles";
 import { dataServiceSheet, adddataServiceSheet } from "../../app/storage/dataservice";
 import { ServiceSheet } from "../../app/storage/sheetservice";
+import { CameraComponent } from "../../app/components/takephoto";
 
 interface ModalCreateRegisterProps {
   vis: boolean;
@@ -25,11 +26,9 @@ function getFormattedDate(): string {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
   
-export const ModalCreateRegisterServiceSheet = ({ vis, closeModal, onUpdate, _servicesheet_}: ModalCreateRegisterProps) => {
+export const ModalDetailCreateRegisterServiceSheet = ({ vis, closeModal, onUpdate, _servicesheet_}: ModalCreateRegisterProps) => {
   const [title, settitle] = useState(String);
   const [description, setDescription] = useState(String);
-  const [_cliente, setCliente] = useState("");
-  const [_clientedetalle, setClienteDetalle ] = useState("");
   const [_isactive, setIsactive] = useState(Boolean);
   const [ _photo_, setPhoto] = useState(String);
  
@@ -48,7 +47,13 @@ export const ModalCreateRegisterServiceSheet = ({ vis, closeModal, onUpdate, _se
         photo : _photo_,
         id_service_sheet : _servicesheet_.id
     }
-    await adddataServiceSheet(data);
+    
+    if(data.title.length > 1){
+      await adddataServiceSheet(data);
+    }else{
+      Alert.alert('Falta de Datos', 'Favor llenar la informacion para crear un registro.')
+    }
+    
     _Onclose_();
   }
 
@@ -86,21 +91,25 @@ export const ModalCreateRegisterServiceSheet = ({ vis, closeModal, onUpdate, _se
             <Text style={[styles.bigtitle, {textAlign : 'center'}]}>CREAR REGISTRO NUEVO</Text>
           </View>
 
+          <View style={{ borderWidth : 0,  width : '100%',margin : 5 }}>
+            <Text style={[styles.title]}>{getFormattedDate()}</Text>
+          </View>
+
           <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
-            <TextInput placeholder="Titulo" onChangeText={(e) => settitle(e)} />
+            <TextInput placeholder="Detalle" onChangeText={(e) => settitle(e)} />
           </View>
-
-          <View onPointerEnter={_isActiveDropBox_}
-           style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5, padding : 0, height : 55}}>
-          </View>
-
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5 }}>
-            <TextInput placeholder="Cliente Detalle" onChangeText={(e) => setClienteDetalle(e)}/>
-          </View>
-
+          
           <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
             <TextInput placeholder="Descripcion" onChangeText={(e) => setDescription(e)}/>
           </View>
+
+          {/* <TouchableOpacity style={[styles.unstylebutton]}>
+            <Ionicons name="camera" size={25} color="grey" style={{ margin: 15 }} />
+          </TouchableOpacity> */}
+          <View style={{ height : '60%', width : '100%'}}>
+          <CameraComponent />
+          </View>
+         
 
           <View style={{ margin: 5, marginTop : 10 }}>
             <TouchableOpacity style={{ borderRadius: 5, backgroundColor: "#3949ab",width: " 100%",}}

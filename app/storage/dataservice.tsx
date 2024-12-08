@@ -57,12 +57,12 @@ export const deletedataServiceSheet = async (id: number): Promise<void> => {
   }
 };
 
-// Filtrar registros por título
-export const filterServiceSheetsByTitle = async (searchTerm: string): Promise<dataServiceSheet[]> => {
+// Filtrar registros por ID
+export const filterServiceSheetsByID = async (_id_: number): Promise<dataServiceSheet[]> => {
   try {
     const headSheets = await getdataServicesSheets();
-    const filteredHeadSheets = headSheets.filter((item) =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()) // Coincidencia parcial, ignorando mayúsculas/minúsculas
+    const filteredHeadSheets = headSheets.filter((item: dataServiceSheet) =>
+      item.id_service_sheet === _id_
     );
     return filteredHeadSheets;
   } catch (error) {
@@ -70,6 +70,7 @@ export const filterServiceSheetsByTitle = async (searchTerm: string): Promise<da
     return [];
   }
 };
+
 
 // Procesar una foto y almacenarla en el campo 'photo'
 export const processAndAddPhotoToSheet = async (

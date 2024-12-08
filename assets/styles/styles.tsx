@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     padding:20,
     width: "100%",
     elevation: 0,
-    backgroundColor: "white"//"#e1f5fe",
+    backgroundColor: "white",//"#e1f5fe",
   },
   headsheetblock: {
     borderWidth: 1,
@@ -77,4 +77,34 @@ DropBoxselectedValue: {
   fontSize: 16,
   fontWeight: "bold",
 },
+  greenButton : {
+    backgroundColor : 'green', 
+    borderRadius : 5, 
+    padding : 10, 
+    color : 'white', 
+    fontWeight : 'bold',
+    textAlign : 'center'
+  },
+  pdfButton : {
+    backgroundColor : '#2196f3',
+    padding : 10,
+    borderRadius : 7,
+    width : '30%'
+  },sheet: {
+    padding: 15,
+    backgroundColor: "#fff",
+    borderRadius: 0,
+    marginBottom: 0,
+    borderBottomWidth : 1,
+    borderBottomColor : '#f4f6f6',
+    elevation: 1,
+    width : '100%'
+  },
+  unstylebutton : {
+    borderWidth : 1,
+    borderColor : '#f4f6f6',
+    borderRadius : 7,
+    padding : 0,
+    width : '100%'
+  }
 });
