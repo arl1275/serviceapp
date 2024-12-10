@@ -4,6 +4,7 @@ import { NavbarRegister } from "../../app/components/navbar.registers";
 import { HeadSheet, getHeadSheets, filterHeadSheetsByTitle } from "../../app/storage/headservice";
 import { useState, useEffect, useCallback } from "react";
 import { styles } from "../../assets/styles/styles";
+import React from "react";
 
 export const RegistrosPage = () => {
   const [dataheadsheet, setdataheadsheet] = useState<HeadSheet[]>([]);
