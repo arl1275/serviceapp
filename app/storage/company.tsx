@@ -9,7 +9,8 @@ export interface impuesto{
 // Define la interfaz de Company
 export interface Company {
   id : number;
-  nobre : string;
+  imagen : string;
+  nombre : string;
   RTN : string;
   contacto : string;
   correo : string;
@@ -21,9 +22,9 @@ export interface Company {
   impuesto : impuesto[];
 }
 
-const STORAGE_KEY = '_couting_';
+const STORAGE_KEY = '_companies_';
 
-export const getCouting = async (): Promise<Company[]> => {
+export const getCompanies = async (): Promise<Company[]> => {
   try {
     const storedData = await AsyncStorage.getItem(STORAGE_KEY);
     return storedData ? JSON.parse(storedData) : [];
@@ -34,9 +35,9 @@ export const getCouting = async (): Promise<Company[]> => {
 };
 
 // Agregar un nuevo registro
-export const addCoutingLine = async (data: Company): Promise<void> => {
+export const addCompanies = async (data: Company): Promise<void> => {
   try {
-    const Companys = await getCouting();
+    const Companys = await getCompanies();
     Companys.push(data);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(Companys));
   } catch (error) {
@@ -45,12 +46,12 @@ export const addCoutingLine = async (data: Company): Promise<void> => {
 };
 
 // Actualizar un registro
-export const updateCoutinh = async (
+export const updateCompanies = async (
   id: number,
   newData: Partial<Company>
 ): Promise<void> => {
   try {
-    const Companys = await getCouting();
+    const Companys = await getCompanies();
     const updatedCompanys = Companys.map((item) =>
       item.id === id ? { ...item, ...newData } : item
     );
@@ -61,9 +62,9 @@ export const updateCoutinh = async (
 };
 
 // Eliminar un registro
-export const deleteCouting = async (id: number): Promise<void> => {
+export const deleteCompanies = async (id: number): Promise<void> => {
   try {
-    const Companys = await getCouting();
+    const Companys = await getCompanies();
     const filteredCompanys = Companys.filter((item) => item.id !== id);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(filteredCompanys));
   } catch (error) {
@@ -74,9 +75,9 @@ export const deleteCouting = async (id: number): Promise<void> => {
 // Filtrar registros por título
 export const filterCoutingByID = async (searchTerm: string): Promise<Company[]> => {
   try {
-    const Companys = await getCouting();
+    const Companys = await getCompanies();
     const filteredCompanys = Companys.filter((item) =>
-      item.nobre = searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
+      item.nombre = searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
     );
     return filteredCompanys;
   } catch (error) {

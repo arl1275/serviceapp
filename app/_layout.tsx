@@ -5,7 +5,7 @@ import { Homepage } from "./page/home";
 import { RegistrosPage } from "./page/registers";
 import { ServiceSheetDetail } from "./subpages/DetailServiceSheets";
 import { ServiceSheet } from "./storage/sheetservice";
-import { Company } from "./subpages/company";
+import { CompanyPage } from "./subpages/company";
 
 export type RootStackParamList = {
   home: undefined;
@@ -65,7 +65,7 @@ export default function RootLayout() {
 
       <Stack.Screen
         name="compania"
-        component={Company}
+        component={CompanyPage}
         options={{
           title: "EMPRESA",
           headerShown: true,

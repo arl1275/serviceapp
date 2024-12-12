@@ -13,7 +13,8 @@ export const Homepage: React.FC = () => {
 
   return (
     <View style={{height : '100%'}}>
-    <Ionicons name="settings" size={25} color="grey" style={{ margin: 15 }} />
+    <Ionicons name="settings" size={25} color="grey" style={{ margin: 15 }} 
+    onPress={()=> navigation.navigate('compania')}/>
 
       <View style={{ position: "absolute", bottom: 10, margin : 10 }}>
       <TouchableOpacity
