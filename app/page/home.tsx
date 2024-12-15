@@ -12,37 +12,69 @@ export const Homepage: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
   return (
-    <View style={{height : '100%'}}>
-    <Ionicons name="settings" size={25} color="grey" style={{ margin: 15 }} 
-    onPress={()=> navigation.navigate('compania')}/>
+    <View style={{ height: "100%", flex: 1 }}>
+      <Ionicons
+        name="settings"
+        size={25}
+        color="grey"
+        style={{ margin: 15 }}
+        onPress={() => navigation.navigate("compania")}
+      />
 
-      <View style={{ position: "absolute", bottom: 10, margin : 10 }}>
-      <TouchableOpacity
-          style={[styles.headsheet, { margin: 0, backgroundColor: "white" }]}
+      <View
+        style={{
+          position: "absolute",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent : 'space-around',
+          bottom: 0,
+          margin: 10,
+          height: "60%",
+          width: "100%",
+        }}
+      >
+        <TouchableOpacity
+          style={[
+            styles.mainsecctionbutton,
+            { margin: 0, backgroundColor: "white" },
+          ]}
         >
           <Text
-            style={[styles.bigtitle, { textAlign: "center", color: "black" }]}
+            style={[
+              styles.bigtitle,
+              { textAlign: "center", verticalAlign: "bottom", color: "black" },
+            ]}
           >
             FACTURACION
           </Text>
         </TouchableOpacity>
-      <TouchableOpacity  style={[styles.headsheet, { margin: 0, backgroundColor: "#a3e4d7" }]} 
-      onPress={()=> navigation.navigate('reporteria')}>
-          <Text  style={[styles.bigtitle, { textAlign: "center", color: "white" }]}>
+        <TouchableOpacity
+          style={[
+            styles.mainsecctionbutton,
+            { margin: 0, backgroundColor: "#a3e4d7" },
+          ]}
+          onPress={() => navigation.navigate("reporteria")}
+        >
+          <Text
+            style={[styles.bigtitle, { textAlign: "center", color: "white" }]}
+          >
             REPORTERIA
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate("registros")}
-          style={[styles.headsheet, { margin: 0, backgroundColor: "#b3e5fc" }]}
+          style={[
+            styles.mainsecctionbutton,
+            { margin: 0, backgroundColor: "#b3e5fc" },
+          ]}
         >
-          <Text style={[styles.bigtitle, { textAlign: "center", color: "white" }]} >
+          <Text
+            style={[styles.bigtitle, { textAlign: "center", color: "white" }]}
+          >
             CLIENTES
           </Text>
         </TouchableOpacity>
-       
       </View>
-     
     </View>
   );
 };

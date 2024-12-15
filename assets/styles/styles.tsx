@@ -106,5 +106,13 @@ DropBoxselectedValue: {
     borderRadius : 7,
     padding : 0,
     width : '100%'
+  },
+  mainsecctionbutton :{
+    width : '45%',
+    height : '30%',
+    borderWidth : 1,
+    elevation : 5,
+    borderColor : 'black',
+    borderRadius : 7
   }
 });
