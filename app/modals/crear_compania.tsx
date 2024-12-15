@@ -9,25 +9,12 @@ import {
 } from "react-native";
 import { styles } from "../../assets/styles/styles";
 import { impuesto, Company, addCompanies } from "../../app/storage/company";
+import DatePicker from 'react-native-date-picker';
 
 interface ModalCreateRegisterProps {
   vis: boolean;
   closeModal: () => void;
   onUpdate: () => void;
-}
-
-function getFormattedDate(): string {
-  const now = new Date();
-
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0"); // Mes (0-11, sumamos 1)
-  const day = String(now.getDate()).padStart(2, "0"); // Día del mes
-
-  const hours = String(now.getHours()).padStart(2, "0"); // Horas
-  const minutes = String(now.getMinutes()).padStart(2, "0"); // Minutos
-  const seconds = String(now.getSeconds()).padStart(2, "0"); // Segundos
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
 export const ModalcreateCompany = ({
@@ -36,7 +23,7 @@ export const ModalcreateCompany = ({
   onUpdate,
 }: ModalCreateRegisterProps) => {
   const [newCompany, setNewCompany] = useState<Company>({
-    id: 1,
+    id: Date.now(),
     imagen: "",
     nombre: "",
     RTN: "",
@@ -50,22 +37,11 @@ export const ModalcreateCompany = ({
     impuesto: [],
   });
 
-  const _Onclose_ = () => {
-    onUpdate();
-    closeModal();
-  };
+  const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const _CreateRegister_ = async () => {
-    if (newCompany && newCompany.RTN.length > 1) {
-      await addCompanies(newCompany);
-    } else {
-      Alert.alert(
-        "Falta de Datos",
-        "Favor llenar la informacion para crear un registro."
-      );
-    }
-    _Onclose_();
-  };
+  const _openPicke_ = ()=>{ setDatePickerVisible(true)}
+  const _closePicker_ = ()=>{ setDatePickerVisible(false)}
 
   const handleInputChange = (field: keyof Company, value: string | number) => {
     setNewCompany({
@@ -74,92 +50,71 @@ export const ModalcreateCompany = ({
     });
   };
 
+  const handleDateConfirm = (date: Date) => {
+    setDatePickerVisible(false);
+    setSelectedDate(date);
+    handleInputChange("fechalimite", date.toISOString().split("T")[0]);
+  };
+
+  const _CreateRegister_ = async () => {
+    if (newCompany && newCompany.RTN.length > 1 && newCompany.fechalimite) {
+      await addCompanies(newCompany);
+      Alert.alert("Éxito", "Registro creado correctamente.");
+    } else {
+      Alert.alert(
+        "Falta de Datos",
+        "Favor llenar la información para crear un registro."
+      );
+    }
+    closeModal();
+    onUpdate();
+  };
+
   return (
     <Modal
       visible={vis}
-      onRequestClose={_Onclose_}
+      onRequestClose={closeModal}
       animationType="slide"
-      style={{
-        backgroundColor: "whtie",
-        borderRadius: 5,
-        width: "80%",
-        height: "40%",
-      }}
       transparent={true}
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: "white",
-            borderRadius: 10,
-            padding: 10,
-            width: "80%",
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: "#ebedef",
-              padding: 10,
-              width: "100%",
-              marginBottom: 10,
-            }}
-          >
-            <Text style={[styles.bigtitle, { textAlign: "center" }]}>
-              CREAR COMPAÑIA NUEVA
-            </Text>
-          </View>
-
-          <View style={{ borderWidth: 0, width: "100%", margin: 5 }}>
-            <Text style={[styles.title]}>{getFormattedDate()}</Text>
-          </View>
-
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+        <View style={{ backgroundColor: "white", borderRadius: 10, padding: 10, width: "80%", alignItems: "center" }}>
+          <Text style={[styles.bigtitle, { textAlign: "center", marginBottom: 10 }]}>CREAR COMPAÑÍA NUEVA</Text>
           {Object.keys(newCompany).map((key) => (
-            <View key={key} style={{
-                borderWidth: 1,
-                borderColor: "#d6dbdf",
-                borderRadius: 5,
-                width: "100%",
-                margin: 5,
-              }}>
-              <TextInput
-                placeholder={`Enter ${key}`}
-                value={newCompany[key as keyof Company]?.toString()}
-                onChangeText={(text) =>
-                  handleInputChange(key as keyof Company, text)
-                }
-              />
+            <View key={key} style={styles.textbox}>
+              {key === "fechalimite" ? (
+                <TouchableOpacity onPress={() =>{_openPicke_()}}>
+                  <TextInput
+                    placeholder="Seleccione la fecha"
+                    value={newCompany[key as keyof Company]?.toString() || ""}
+                    editable={false}
+                    //style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 5, padding: 10 }}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TextInput
+                  placeholder={`Ingrese ${key}`}
+                  value={newCompany[key as keyof Company]?.toString() || ""}
+                  onChangeText={(text) => handleInputChange(key as keyof Company, text)}
+                  //style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 5, padding: 10, marginVertical: 5 }}
+                />
+              )}
             </View>
           ))}
-
-
-          <View style={{ margin: 5, marginTop: 10 }}>
-            <TouchableOpacity
-              style={{
-                borderRadius: 5,
-                backgroundColor: "#3949ab",
-                width: " 100%",
-              }}
-              onPress={async () => await _CreateRegister_()}
-            >
-              <Text
-                style={[
-                  styles.title,
-                  { color: "white", textAlign: "center", margin: 10 },
-                ]}
-              >
-                CREAR
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <DatePicker
+            modal
+            open={datePickerVisible}
+            date={selectedDate}
+            mode="date"
+            onConfirm={handleDateConfirm}
+            onCancel={() => _closePicker_()}
+          />
+          <TouchableOpacity
+            style={{ backgroundColor: "#3949ab", borderRadius: 5, marginTop: 15, padding: 10 }}
+            onPress={_CreateRegister_}
+          >
+            <Text style={{ color: "white", textAlign: "center" }}>CREAR</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

@@ -23,35 +23,32 @@ export const Homepage: React.FC = () => {
 
       <View
         style={{
-          position: "absolute",
-          flexDirection: "row",
-          flexWrap: "wrap",
+          alignItems : 'center',
           justifyContent : 'space-around',
           bottom: 0,
-          margin: 10,
-          height: "60%",
           width: "100%",
         }}
       >
         <TouchableOpacity
           style={[
             styles.mainsecctionbutton,
-            { margin: 0, backgroundColor: "white" },
+            { margin: 0, backgroundColor: "black" },
           ]}
         >
           <Text
             style={[
               styles.bigtitle,
-              { textAlign: "center", verticalAlign: "bottom", color: "black" },
+              { textAlign: "center", color: "white" },
             ]}
           >
             FACTURACION
           </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={[
             styles.mainsecctionbutton,
-            { margin: 0, backgroundColor: "#a3e4d7" },
+            { margin: 0, backgroundColor: "black" },
           ]}
           onPress={() => navigation.navigate("reporteria")}
         >
@@ -65,7 +62,7 @@ export const Homepage: React.FC = () => {
           onPress={() => navigation.navigate("registros")}
           style={[
             styles.mainsecctionbutton,
-            { margin: 0, backgroundColor: "#b3e5fc" },
+            { margin: 0, backgroundColor: "black" },
           ]}
         >
           <Text
