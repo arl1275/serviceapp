@@ -34,6 +34,7 @@ export const Homepage: React.FC = () => {
             styles.mainsecctionbutton,
             { margin: 0, backgroundColor: "black" },
           ]}
+          onPress={()=>{navigation.navigate('facturas')}}
         >
           <Text
             style={[
@@ -58,6 +59,7 @@ export const Homepage: React.FC = () => {
             REPORTERIA
           </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => navigation.navigate("registros")}
           style={[

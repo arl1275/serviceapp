@@ -6,12 +6,15 @@ import { RegistrosPage } from "./page/registers";
 import { ServiceSheetDetail } from "./subpages/DetailServiceSheets";
 import { ServiceSheet } from "./storage/sheetservice";
 import { CompanyPage } from "./subpages/company";
+import { FacturasPage } from "./page/Facturas";
+import { CrearFacturaSubPage } from "./subpages/CrearFactura";
 
 export type RootStackParamList = {
   home: undefined;
   registros: undefined;
   reporteria: undefined;
   compania: undefined;
+  facturas: undefined;
   details: { itemId: number };
 };
 
@@ -21,8 +24,15 @@ export type DetailStackParamList = {
   details: { itemId: number };
 };
 
+export type FacturasParamList = {
+  homeFactura: undefined;
+  CrearFActura: undefined;
+  details: { itemId: number };
+};
+
 const Stack = createStackNavigator<RootStackParamList>();
 const DetaildataStack = createStackNavigator<DetailStackParamList>();
+const FacturasStack = createStackNavigator<FacturasParamList>();
 
 export default function RootLayout() {
   return (
@@ -55,6 +65,19 @@ export default function RootLayout() {
         component={DetailLayout}
         options={{
           title: "REPORTERIA",
+          headerShown: false,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+
+      <Stack.Screen
+        name="facturas"
+        component={FacturasLayout}
+        options={{
+          title: "Factura",
           headerShown: false,
           headerPressColor: "blue",
           headerStyle: { backgroundColor: "white" },
@@ -113,5 +136,42 @@ export function DetailLayout() {
         }}
       />
     </DetaildataStack.Navigator>
+  );
+}
+
+export function FacturasLayout() {
+  return (
+    <FacturasStack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "white" },
+        headerTintColor: "black",
+        headerTitleStyle: { fontWeight: "bold" },
+      }}
+    >
+      <FacturasStack.Screen
+        name="homeFactura"
+        component={FacturasPage}
+        options={{
+          title: "FACTURAS",
+          headerShown: true,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+      <FacturasStack.Screen
+        name="CrearFActura"
+        component={CrearFacturaSubPage}
+        options={{
+          title: "CREAR FACTURA",
+          headerShown: true,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+    </FacturasStack.Navigator>
   );
 }
