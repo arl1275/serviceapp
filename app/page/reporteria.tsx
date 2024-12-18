@@ -28,6 +28,7 @@ export const ReporteriaPage = ()=> {
       console.error("Error al cargar los registros:", error);
     }
   }, []);
+  
   const loadServiceSheets = async () => {
     const sheets = await getServicesSheets();
     setServiceSheets(sheets);
