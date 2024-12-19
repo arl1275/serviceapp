@@ -8,8 +8,13 @@ import {
   Alert,
 } from "react-native";
 import { styles } from "../../assets/styles/styles";
-import { impuesto, Company, addCompanies } from "../../app/storage/company";
-import DatePicker from 'react-native-date-picker';
+import {
+  impuesto,
+  Company,
+  addCompanies,
+  FacturaNumber,
+} from "../../app/storage/company";
+import DatePicker from "react-native-date-picker";
 
 interface ModalCreateRegisterProps {
   vis: boolean;
@@ -22,6 +27,7 @@ export const ModalcreateCompany = ({
   closeModal,
   onUpdate,
 }: ModalCreateRegisterProps) => {
+  const [NumeroDeCorrelativo, setNumeroDeCorrelativo] = useState<FacturaNumber>({ id: Date.now(), FirstNumbers: 0, SeconNumbers: 0, thirdNumbers: 0, LastNumbers: 0 });
   const [newCompany, setNewCompany] = useState<Company>({
     id: Date.now(),
     imagen: "",
@@ -31,17 +37,21 @@ export const ModalcreateCompany = ({
     correo: "",
     direccion: "",
     CAI: "",
-    correlativo: 0,
+    correlativo: NumeroDeCorrelativo,
     rango: 0,
     fechalimite: "",
     impuesto: [],
   });
 
   const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const _openPicke_ = ()=>{ setDatePickerVisible(true)}
-  const _closePicker_ = ()=>{ setDatePickerVisible(false)}
+  const _openPicke_ = () => {
+    setDatePickerVisible(true);
+  };
+  const _closePicker_ = () => {
+    setDatePickerVisible(false);
+  };
 
   const handleInputChange = (field: keyof Company, value: string | number) => {
     setNewCompany({
@@ -70,6 +80,11 @@ export const ModalcreateCompany = ({
     onUpdate();
   };
 
+  const AddFirstNumber = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, FirstNumbers: parseInt(val) })) }
+  const AddSeconNumber = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, SeconNumbers: parseInt(val) })) }
+  const AddthirdNumbers = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, thirdNumbers: parseInt(val) })) }
+  const AddLastNumbers = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, LastNumbers: parseInt(val) })) }
+
   return (
     <Modal
       visible={vis}
@@ -77,28 +92,63 @@ export const ModalcreateCompany = ({
       animationType="slide"
       transparent={true}
     >
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-        <View style={{ backgroundColor: "white", borderRadius: 10, padding: 10, width: "80%", alignItems: "center" }}>
-          <Text style={[styles.bigtitle, { textAlign: "center", marginBottom: 10 }]}>CREAR COMPAÑÍA NUEVA</Text>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 10,
+            padding: 10,
+            width: "80%",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={[styles.bigtitle, { textAlign: "center", marginBottom: 10 }]}
+          >
+            CREAR COMPAÑÍA NUEVA
+          </Text>
           {Object.keys(newCompany).map((key) => (
             <View key={key} style={styles.textbox}>
               {key === "fechalimite" ? (
-                <TouchableOpacity onPress={() =>{_openPicke_()}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    _openPicke_();
+                  }}
+                >
                   <TextInput
                     placeholder="Seleccione la fecha"
                     value={newCompany[key as keyof Company]?.toString() || ""}
                     editable={false}
-                    //style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 5, padding: 10 }}
+                  //style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 5, padding: 10 }}
                   />
                 </TouchableOpacity>
-              ) : (
-                <TextInput
-                  placeholder={`Ingrese ${key}`}
-                  value={newCompany[key as keyof Company]?.toString() || ""}
-                  onChangeText={(text) => handleInputChange(key as keyof Company, text)}
-                  //style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 5, padding: 10, marginVertical: 5 }}
-                />
-              )}
+              ) :
+                key === "correlativo" ? (
+                  <View style={[styles.rowContainer, {elevation : 0}]}>
+                    <TextInput placeholder="Ingrese FNumero" onChangeText={(value: string) => AddFirstNumber(value)} />
+                      <Text>-</Text>
+                    <TextInput placeholder="Ingrese SNumero" onChangeText={(value: string) => AddSeconNumber(value)} />
+                    <Text>-</Text>
+                    <TextInput placeholder="Ingrese TNumero" onChangeText={(value: string) => AddthirdNumbers(value)} />
+                    <Text>-</Text>
+                    <TextInput placeholder="Ingrese LNumero" onChangeText={(value: string) => AddLastNumbers(value)} />
+                  </View>
+                ) : (
+                  <TextInput
+                    placeholder={`Ingrese ${key}`}
+                    value={newCompany[key as keyof Company]?.toString() || ""}
+                    onChangeText={(text) =>
+                      handleInputChange(key as keyof Company, text)
+                    }
+                  />
+                )}
             </View>
           ))}
           <DatePicker
@@ -110,7 +160,12 @@ export const ModalcreateCompany = ({
             onCancel={() => _closePicker_()}
           />
           <TouchableOpacity
-            style={{ backgroundColor: "#3949ab", borderRadius: 5, marginTop: 15, padding: 10 }}
+            style={{
+              backgroundColor: "#3949ab",
+              borderRadius: 5,
+              marginTop: 15,
+              padding: 10,
+            }}
             onPress={_CreateRegister_}
           >
             <Text style={{ color: "white", textAlign: "center" }}>CREAR</Text>

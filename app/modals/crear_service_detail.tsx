@@ -12,7 +12,7 @@ interface ModalCreateRegisterProps {
   _servicesheet_ :  ServiceSheet
 }
 
-function getFormattedDate(): string {
+export function getFormattedDate(): string {
     const now = new Date();
   
     const year = now.getFullYear();

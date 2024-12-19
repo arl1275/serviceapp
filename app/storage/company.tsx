@@ -1,25 +1,32 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export interface impuesto{
-    id: number;
-    nombre: string;
-    porcentaje : number;
+export interface impuesto {
+  id: number;
+  nombre: string;
+  porcentaje: number;
+}
+export interface FacturaNumber {
+  id: number;
+  FirstNumbers: number;
+  SeconNumbers: number;
+  thirdNumbers: number;
+  LastNumbers: number;
 }
 
 // Define la interfaz de Company
 export interface Company {
-  id : number;
-  imagen : string;
-  nombre : string;
-  RTN : string;
-  contacto : string;
-  correo : string;
-  direccion : string;
+  id: number;
+  imagen: string;
+  nombre: string;
+  RTN: string;
+  contacto: string;
+  correo: string;
+  direccion: string;
   CAI: string;
-  correlativo : number;
-  rango : number;
-  fechalimite : string;
-  impuesto : impuesto[];
+  correlativo: FacturaNumber;
+  rango: number;
+  fechalimite: string;
+  impuesto: impuesto[];
 }
 
 const STORAGE_KEY = '_companies_';
