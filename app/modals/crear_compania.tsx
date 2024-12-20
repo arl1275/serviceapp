@@ -14,7 +14,9 @@ import {
   addCompanies,
   FacturaNumber,
 } from "../../app/storage/company";
+import { AddLogoComponent } from "../../app/components/addlogocompany";
 import DatePicker from "react-native-date-picker";
+
 
 interface ModalCreateRegisterProps {
   vis: boolean;
@@ -52,6 +54,12 @@ export const ModalcreateCompany = ({
   const _closePicker_ = () => {
     setDatePickerVisible(false);
   };
+  const _onSelectedLogo_ = ( value : string )=>{
+    setNewCompany({
+      ...newCompany,
+      imagen : value,
+    });
+  }
 
   const handleInputChange = (field: keyof Company, value: string | number) => {
     setNewCompany({
@@ -115,7 +123,7 @@ export const ModalcreateCompany = ({
             CREAR COMPAÑÍA NUEVA
           </Text>
           {Object.keys(newCompany).map((key) => (
-            <View key={key} style={styles.textbox}>
+            <View key={key} style={[styles.textbox, {padding : 10}]}>
               {key === "fechalimite" ? (
                 <TouchableOpacity
                   onPress={() => {
@@ -140,7 +148,12 @@ export const ModalcreateCompany = ({
                     <Text>-</Text>
                     <TextInput placeholder="Ingrese LNumero" onChangeText={(value: string) => AddLastNumbers(value)} />
                   </View>
-                ) : (
+                ) : 
+                key === 'imagen' ?
+                (<View style={{ height : 50, justifyContent : 'center', alignItems : 'center'}}>
+                  <AddLogoComponent onLogoSelected={_onSelectedLogo_}/>
+                  </View>) :
+                (
                   <TextInput
                     placeholder={`Ingrese ${key}`}
                     value={newCompany[key as keyof Company]?.toString() || ""}
@@ -165,6 +178,7 @@ export const ModalcreateCompany = ({
               borderRadius: 5,
               marginTop: 15,
               padding: 10,
+              width : '100%'
             }}
             onPress={_CreateRegister_}
           >

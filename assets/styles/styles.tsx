@@ -121,6 +121,6 @@ export const styles = StyleSheet.create({
     borderColor: "#d6dbdf",
     borderRadius: 5,
     width: "100%",
-    margin: 10,
+    margin: 5
   },
 });
