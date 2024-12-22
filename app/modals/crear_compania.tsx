@@ -180,7 +180,7 @@ export const ModalcreateCompany = ({
               padding: 10,
               width : '100%'
             }}
-            onPress={_CreateRegister_}
+            onPress={async ()=>{ await _CreateRegister_()}}
           >
             <Text style={{ color: "white", textAlign: "center" }}>CREAR</Text>
           </TouchableOpacity>

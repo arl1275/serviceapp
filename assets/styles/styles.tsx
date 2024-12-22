@@ -123,4 +123,29 @@ export const styles = StyleSheet.create({
     width: "100%",
     margin: 5
   },
+  headsheet_Com: {
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+  },
+  companyName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "left",
+  },
+  companyText: {
+    fontSize: 14,
+    marginVertical: 2,
+  },
+  noImageText: {
+    color: "gray",
+    fontSize: 14,
+    textAlign: "center",
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    resizeMode: "cover",
+  },
 });

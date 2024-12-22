@@ -8,6 +8,7 @@ import { ServiceSheet } from "./storage/sheetservice";
 import { CompanyPage } from "./subpages/company";
 import { FacturasPage } from "./page/Facturas";
 import { CrearFacturaSubPage } from "./subpages/CrearFactura";
+import { EditCompanySubPage } from "./subpages/editCompanySubpage";
 
 export type RootStackParamList = {
   home: undefined;
@@ -30,9 +31,16 @@ export type FacturasParamList = {
   details: { itemId: number };
 };
 
+export type CompaniesParamList = {
+  homeCompany: undefined;
+  EditCopany: undefined;
+  details: { itemId: number };
+};
+
 const Stack = createStackNavigator<RootStackParamList>();
 const DetaildataStack = createStackNavigator<DetailStackParamList>();
 const FacturasStack = createStackNavigator<FacturasParamList>();
+const CompaniesStack = createStackNavigator<CompaniesParamList>();
 
 export default function RootLayout() {
   return (
@@ -88,7 +96,7 @@ export default function RootLayout() {
 
       <Stack.Screen
         name="compania"
-        component={CompanyPage}
+        component={CompaniesLayout}
         options={{
           title: "EMPRESA",
           headerShown: true,
@@ -173,5 +181,42 @@ export function FacturasLayout() {
         }}
       />
     </FacturasStack.Navigator>
+  );
+}
+
+export function CompaniesLayout(){
+  return (
+    <CompaniesStack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "white" },
+        headerTintColor: "black",
+        headerTitleStyle: { fontWeight: "bold" },
+      }}
+    >
+      <CompaniesStack.Screen
+        name="homeCompany"
+        component={CompanyPage}
+        options={{
+          title: "FACTURAS",
+          headerShown: false,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+      <CompaniesStack.Screen
+        name="EditCopany"
+        component={EditCompanySubPage}
+        options={{
+          title: "CREAR FACTURA",
+          headerShown: true,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+    </CompaniesStack.Navigator>
   );
 }
