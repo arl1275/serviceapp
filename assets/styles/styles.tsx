@@ -147,5 +147,13 @@ export const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     resizeMode: "cover",
+  },row: {
+    flexDirection: 'row', // Organiza en fila
+    justifyContent: 'space-between', // Espacio entre los textos
+    marginVertical: 5, // Espaciado vertical opcional
+  },
+  _companyText_: {
+    fontSize: 16, // Tamaño de fuente ajustable
+    color: '#000', // Ajusta el color según lo necesites
   },
 });

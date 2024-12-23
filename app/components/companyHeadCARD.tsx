@@ -16,15 +16,15 @@ interface CompanyProps {
 export const CompanyHeadCard = ({ data }: CompanyProps) => {
   const [companyValue, setCompanyValue] = useState<Company | null>(null);
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  
+
   const FormatCorrelative = (value: FacturaNumber): string => {
     // Filtra las claves para excluir "id" y concatena los valores restantes
     const formattedValue = Object.keys(value)
-        .filter((key) => key !== "id") // Excluye la clave "id"
-        .map((key) => value[key as keyof FacturaNumber])
-        .join(" - ");
+      .filter((key) => key !== "id") // Excluye la clave "id"
+      .map((key) => value[key as keyof FacturaNumber])
+      .join(" - ");
     return formattedValue;
-};
+  };
 
   useEffect(() => {
     setCompanyValue(data);
@@ -51,18 +51,43 @@ export const CompanyHeadCard = ({ data }: CompanyProps) => {
       {/* Información de la compañía */}
       <Text style={styles.companyName}>{companyValue.nombre}</Text>
 
-      <View style={[styles.rowContainer, {elevation : 0}]}>
+      <View style={[styles.rowContainer, { elevation: 0 }]}>
         <View style={{ marginTop: 10 }}>
-          <Text style={styles.companyText}>RTN:       {companyValue.RTN}</Text>
-          <Text style={styles.companyText}>Contacto:  {companyValue.contacto}</Text>
-          <Text style={styles.companyText}>Correo:    {companyValue.correo}</Text>
-          <Text style={styles.companyText}>Dirección: {companyValue.direccion}</Text>
-          <Text style={styles.companyText}>CAI:       {companyValue.CAI}</Text>
-          <Text style={styles.companyText}> Correlativo: {FormatCorrelative(companyValue.correlativo)}</Text>
-          <Text style={styles.companyText}>Rango: {companyValue.rango}</Text>
-          <Text style={styles.companyText}>
-            Fecha Límite: {companyValue.fechalimite}
-          </Text>
+          <View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>RTN:</Text>
+              <Text style={styles.companyText}>{companyValue.RTN}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>Contacto:</Text>
+              <Text style={styles.companyText}>{companyValue.contacto}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>Correo:</Text>
+              <Text style={styles.companyText}>{companyValue.correo}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>Dirección:</Text>
+              <Text style={styles.companyText}>{companyValue.direccion}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>CAI:</Text>
+              <Text style={styles.companyText}>{companyValue.CAI}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>Correlativo:</Text>
+              <Text style={styles.companyText}>{FormatCorrelative(companyValue.correlativo)}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>Rango:</Text>
+              <Text style={styles.companyText}>{companyValue.rango}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.companyText}>Fecha Límite:</Text>
+              <Text style={styles.companyText}>{companyValue.fechalimite}</Text>
+            </View>
+          </View>
+
         </View>
 
         <View>
@@ -71,7 +96,7 @@ export const CompanyHeadCard = ({ data }: CompanyProps) => {
             size={25}
             color="grey"
             style={{ margin: 15 }}
-            onPress={() => navigation.navigate("EditCopany", {_data_ : companyValue})}
+            onPress={() => navigation.navigate("EditCopany", { _data_: companyValue })}
           />
         </View>
 
