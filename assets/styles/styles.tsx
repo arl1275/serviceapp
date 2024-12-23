@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
   },
   companyText: {
     fontSize: 14,
-    marginVertical: 2,
+    marginVertical: 2
   },
   noImageText: {
     color: "gray",

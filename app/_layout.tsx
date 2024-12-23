@@ -9,6 +9,7 @@ import { CompanyPage } from "./subpages/company";
 import { FacturasPage } from "./page/Facturas";
 import { CrearFacturaSubPage } from "./subpages/CrearFactura";
 import { EditCompanySubPage } from "./subpages/editCompanySubpage";
+import { Company } from "./storage/company";
 
 export type RootStackParamList = {
   home: undefined;
@@ -33,7 +34,7 @@ export type FacturasParamList = {
 
 export type CompaniesParamList = {
   homeCompany: undefined;
-  EditCopany: undefined;
+  EditCopany: {_data_ : Company};
   details: { itemId: number };
 };
 
@@ -210,7 +211,7 @@ export function CompaniesLayout(){
         component={EditCompanySubPage}
         options={{
           title: "CREAR FACTURA",
-          headerShown: true,
+          headerShown: false,
           headerPressColor: "blue",
           headerStyle: { backgroundColor: "white" },
           headerTintColor: "grey",

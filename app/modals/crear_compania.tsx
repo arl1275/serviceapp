@@ -29,7 +29,15 @@ export const ModalcreateCompany = ({
   closeModal,
   onUpdate,
 }: ModalCreateRegisterProps) => {
-  const [NumeroDeCorrelativo, setNumeroDeCorrelativo] = useState<FacturaNumber>({ id: Date.now(), FirstNumbers: 0, SeconNumbers: 0, thirdNumbers: 0, LastNumbers: 0 });
+  const [NumeroDeCorrelativo, setNumeroDeCorrelativo] = useState<FacturaNumber>(
+    { 
+      id: Date.now(), 
+      FirstNumbers: 0, 
+      SeconNumbers: 0, 
+      thirdNumbers: 0, 
+      LastNumbers: 0 
+    }
+  );
   const [newCompany, setNewCompany] = useState<Company>({
     id: Date.now(),
     imagen: "",
@@ -75,7 +83,7 @@ export const ModalcreateCompany = ({
   };
 
   const _CreateRegister_ = async () => {
-    if (newCompany && newCompany.RTN.length > 1 && newCompany.fechalimite) {
+    if (newCompany && newCompany.RTN.length > 1 && newCompany.fechalimite && newCompany.correlativo.FirstNumbers != 0) {
       await addCompanies(newCompany);
       Alert.alert("Éxito", "Registro creado correctamente.");
     } else {
@@ -88,10 +96,19 @@ export const ModalcreateCompany = ({
     onUpdate();
   };
 
-  const AddFirstNumber = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, FirstNumbers: parseInt(val) })) }
-  const AddSeconNumber = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, SeconNumbers: parseInt(val) })) }
-  const AddthirdNumbers = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, thirdNumbers: parseInt(val) })) }
-  const AddLastNumbers = (val: any) => { setNumeroDeCorrelativo((prevNumber) => ({ ...prevNumber, LastNumbers: parseInt(val) })) }
+  const AddCorrelativeNumber = (field: keyof FacturaNumber, value: string) => {
+    const updatedCorrelativo = {
+      ...NumeroDeCorrelativo,
+      [field]: parseInt(value) || 0, // Asegúrate de manejar valores no válidos
+    };
+  
+    setNumeroDeCorrelativo(updatedCorrelativo);
+    setNewCompany((prevCompany) => ({
+      ...prevCompany,
+      correlativo: updatedCorrelativo,
+    }));
+  };
+  
 
   return (
     <Modal
@@ -140,13 +157,13 @@ export const ModalcreateCompany = ({
               ) :
                 key === "correlativo" ? (
                   <View style={[styles.rowContainer, {elevation : 0}]}>
-                    <TextInput placeholder="Ingrese FNumero" onChangeText={(value: string) => AddFirstNumber(value)} />
+                    <TextInput placeholder="Ingrese FNumero"  onChangeText={(value: string) => AddCorrelativeNumber("FirstNumbers", value)} />
                       <Text>-</Text>
-                    <TextInput placeholder="Ingrese SNumero" onChangeText={(value: string) => AddSeconNumber(value)} />
+                    <TextInput placeholder="Ingrese SNumero" onChangeText={(value: string) => AddCorrelativeNumber("SeconNumbers", value)} />
                     <Text>-</Text>
-                    <TextInput placeholder="Ingrese TNumero" onChangeText={(value: string) => AddthirdNumbers(value)} />
+                    <TextInput placeholder="Ingrese TNumero" onChangeText={(value: string) => AddCorrelativeNumber("thirdNumbers", value)} />
                     <Text>-</Text>
-                    <TextInput placeholder="Ingrese LNumero" onChangeText={(value: string) => AddLastNumbers(value)} />
+                    <TextInput placeholder="Ingrese LNumero" onChangeText={(value: string) => AddCorrelativeNumber("LastNumbers", value)} />
                   </View>
                 ) : 
                 key === 'imagen' ?
