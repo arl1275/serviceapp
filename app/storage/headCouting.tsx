@@ -4,6 +4,12 @@ export interface HeadCouting {
     id : number;
     _NumberOfBill_ : string;
     _date_ : string;
+    isClosed : boolean;
+    isDeleted :boolean;
+    hasPDFgenerated : boolean;
+    isExported : boolean;
+    isLinkedOnSherviceSheet : boolean;
+    LinkedSherviceSheet : number;
 }
 
 const STORAGE_KEY = 'HeadCouting';

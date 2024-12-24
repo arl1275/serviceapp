@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Image } from "react-native";
 import { RouteProp } from "@react-navigation/core/lib/typescript/commonjs/src";
 import { CompaniesParamList } from "../../app/_layout";
 import { styles } from "../../assets/styles/styles";
@@ -27,23 +27,26 @@ export const EditCompanySubPage = ({ route }: CompanyDetailProps) => {
         <View>
             <View style={[styles.rowContainer]}>
                 <View style={{ marginTop: 10 }}>
-                    <TextInput placeholder={_data_.nombre}/>
-                    <TextInput placeholder={_data_.CAI} />
-                    <TextInput placeholder={_data_.RTN} />
-                    <TextInput placeholder={_data_.rango.toString()} />
-                    <TextInput placeholder={_data_.contacto} />
+                    <TextInput placeholder={_data_.nombre} style={[styles.textbox]} />
+                    <TextInput placeholder={_data_.CAI} style={[styles.textbox]} />
+                    <TextInput placeholder={_data_.RTN} style={[styles.textbox]} />
+                    <TextInput placeholder={_data_.rango.toString()} style={[styles.textbox]} />
+                    <TextInput placeholder={_data_.contacto} style={[styles.textbox]} />
                     <View style={[styles.rowContainer, { elevation: 0 }]}>
-                        <TextInput placeholder={NumeroDeCorrelativo.FirstNumbers.toString()} onChangeText={(value: string) => AddFirstNumber(value)} />
+                        <TextInput placeholder={NumeroDeCorrelativo.FirstNumbers.toString()} onChangeText={(value: string) => AddFirstNumber(value)} style={[styles.textbox]} />
                         <Text>-</Text>
-                        <TextInput placeholder={NumeroDeCorrelativo.SeconNumbers.toString()} onChangeText={(value: string) => AddSeconNumber(value)} />
+                        <TextInput placeholder={NumeroDeCorrelativo.SeconNumbers.toString()} onChangeText={(value: string) => AddSeconNumber(value)} style={[styles.textbox]} />
                         <Text>-</Text>
-                        <TextInput placeholder={NumeroDeCorrelativo.thirdNumbers.toString()} onChangeText={(value: string) => AddthirdNumbers(value)} />
+                        <TextInput placeholder={NumeroDeCorrelativo.thirdNumbers.toString()} onChangeText={(value: string) => AddthirdNumbers(value)} style={[styles.textbox]} />
                         <Text>-</Text>
-                        <TextInput placeholder={NumeroDeCorrelativo.LastNumbers.toString()} onChangeText={(value: string) => AddLastNumbers(value)} />
+                        <TextInput placeholder={NumeroDeCorrelativo.LastNumbers.toString()} onChangeText={(value: string) => AddLastNumbers(value)} style={[styles.textbox]} />
                     </View>
-                    <TextInput placeholder={_data_.correo}/>
-                    <TextInput placeholder={_data_.direccion}/>
-                    <TextInput placeholder={_data_.imagen}/>
+                    <TextInput placeholder={_data_.correo} style={[styles.textbox]} />
+                    <TextInput placeholder={_data_.direccion} style={[styles.textbox]} />
+                    <Image
+                        source={{ uri: `file://${_data_.imagen}` }} // Asegúrate de que _data_.imagen sea una URL válida
+                        style={[styles.image_edit]}
+                    />
                     <TextInput />
                 </View>
             </View>

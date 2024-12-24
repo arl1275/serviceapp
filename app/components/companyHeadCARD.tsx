@@ -40,8 +40,8 @@ export const CompanyHeadCard = ({ data }: CompanyProps) => {
       <View style={{ alignItems: "center", marginBottom: 10 }}>
         {companyValue.imagen ? (
           <Image
-            source={{ uri: companyValue.imagen }}
-            style={styles.image}
+            source={{ uri: `file://${companyValue.imagen}` }}
+            style={styles.image_List}
           />
         ) : (
           <Text style={styles.noImageText}>No hay imagen disponible</Text>

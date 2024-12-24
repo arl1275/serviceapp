@@ -121,7 +121,8 @@ export const styles = StyleSheet.create({
     borderColor: "#d6dbdf",
     borderRadius: 5,
     width: "100%",
-    margin: 5
+    margin: 5,
+    padding : 10
   },
   headsheet_Com: {
     padding: 20,
@@ -146,6 +147,19 @@ export const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+    resizeMode: "cover",
+  }, 
+  image_edit: {
+    width: 200,
+    height: 400,
+    borderRadius: 7,
+    resizeMode: "cover",
+  }, 
+  image_List: {
+    width: '100%',
+    height: 50,
+    borderRadius: 5,
+    opacity : 0.3,
     resizeMode: "cover",
   },row: {
     flexDirection: 'row', // Organiza en fila
