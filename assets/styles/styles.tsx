@@ -124,6 +124,14 @@ export const styles = StyleSheet.create({
     margin: 5,
     padding : 10
   },
+  textbox_edit: {
+    borderWidth: 1,
+    borderColor: "#d6dbdf",
+    borderRadius: 5,
+    width: "auto",
+    margin: 5,
+    padding : 10
+  },
   headsheet_Com: {
     padding: 20,
     backgroundColor: "#f5f5f5",
