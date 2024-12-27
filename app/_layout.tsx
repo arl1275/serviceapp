@@ -100,7 +100,7 @@ export default function RootLayout() {
         component={CompaniesLayout}
         options={{
           title: "EMPRESA",
-          headerShown: true,
+          headerShown: false,
           headerPressColor: "blue",
           headerStyle: { backgroundColor: "white" },
           headerTintColor: "grey",
@@ -198,8 +198,8 @@ export function CompaniesLayout(){
         name="homeCompany"
         component={CompanyPage}
         options={{
-          title: "FACTURAS",
-          headerShown: false,
+          title: "EMPRESAS",
+          headerShown: true,
           headerPressColor: "blue",
           headerStyle: { backgroundColor: "white" },
           headerTintColor: "grey",
@@ -210,8 +210,8 @@ export function CompaniesLayout(){
         name="EditCopany"
         component={EditCompanySubPage}
         options={{
-          title: "CREAR FACTURA",
-          headerShown: false,
+          title: "EDITAR",
+          headerShown: true,
           headerPressColor: "blue",
           headerStyle: { backgroundColor: "white" },
           headerTintColor: "grey",

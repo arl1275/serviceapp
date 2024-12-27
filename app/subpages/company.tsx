@@ -42,7 +42,10 @@ export const CompanyPage = () =>{
                       data={companies}
                       style={{ borderRadius : 5, width : '95%'}}
                       keyExtractor={(item) => item.id.toString()}
-                      renderItem={({item }) => (<CompanyHeadCard data={item}/>)}
+                      renderItem={({item}) => (
+                      <View key={item.id}>
+                        <CompanyHeadCard data={item}/>
+                      </View>)}
                     />
                   ) : (
                     <Text style={{ fontSize: 20, color: "#000" }}>
