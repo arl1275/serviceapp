@@ -69,27 +69,27 @@ export const ModalCreateRegister = ({ vis, closeModal}: ModalCreateRegisterProps
             <Text style={[styles.bigtitle, {textAlign : 'center'}]}>CREAR REGISTRO NUEVO</Text>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 , padding : 10}}>
             <TextInput placeholder="Titulo" onChangeText={(e) => settitle(e)} />
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5, padding : 10 }}>
             <TextInput placeholder="Descripcion" onChangeText={(e) => setDescription(e)}/>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5, padding : 10 }}>
             <TextInput placeholder="Correo" onChangeText={(e) => setCorre(e)}/>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5, padding : 10 }}>
             <TextInput placeholder="Contacto" onChangeText={(e) => setContacto(e)}/>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5, padding : 10 }}>
             <TextInput placeholder="Direccion" onChangeText={(e) => setAddress(e)}/>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5, padding : 10 }}>
             <TextInput placeholder="RTN" onChangeText={(e) => setRtn(e)}/>
           </View>
 

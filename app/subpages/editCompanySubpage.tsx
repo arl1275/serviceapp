@@ -51,11 +51,11 @@ export const EditCompanySubPage = ({ route }: CompanyDetailProps) => {
             <Text style={[styles.bigtitle, { textAlign: 'center' }]}>EDICION DE EMPRESA</Text>
             <View style={[styles.rowContainer, { alignSelf: 'center' }]}>
                 <View style={{ marginTop: 10 }}>
-                    <TextInput placeholder={editedCompany?.nombre} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("nombre", e) }} />
-                    <TextInput placeholder={editedCompany?.CAI} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("CAI", e) }} />
-                    <TextInput placeholder={editedCompany?.RTN} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("RTN", e) }} />
-                    <TextInput placeholder={editedCompany?.rango.toString()} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("rango", e) }} />
-                    <TextInput placeholder={editedCompany?.contacto} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("contacto", e) }} />
+                    <TextInput placeholder={'NOMBRE: ' + editedCompany?.nombre} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("nombre", e) }} />
+                    <TextInput placeholder={'CAI: ' + editedCompany?.CAI} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("CAI", e) }} />
+                    <TextInput placeholder={'RTN: ' + editedCompany?.RTN} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("RTN", e) }} />
+                    <TextInput placeholder={'RANGO: ' + editedCompany?.rango.toString()} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("rango", e) }} />
+                    <TextInput placeholder={'CONTACTO: ' + editedCompany?.contacto} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("contacto", e) }} />
                     <View style={[styles.rowContainer, { elevation: 0 }]}>
                         <TextInput placeholder={NumeroDeCorrelativo.FirstNumbers.toString()} onChangeText={(value: string) => AddFirstNumber(value)} style={[styles.textbox_edit]} />
                         <Text>-</Text>
@@ -65,9 +65,9 @@ export const EditCompanySubPage = ({ route }: CompanyDetailProps) => {
                         <Text>-</Text>
                         <TextInput placeholder={NumeroDeCorrelativo.LastNumbers.toString()} onChangeText={(value: string) => AddLastNumbers(value)} style={[styles.textbox_edit]} />
                     </View>
-                    <TextInput placeholder={editedCompany?.correo} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("correo", e) }} />
-                    <TextInput placeholder={editedCompany?.direccion} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("direccion", e) }} />
-                    <View style={styles.rowContainer}>
+                    <TextInput placeholder={'CORREO: ' + editedCompany?.correo} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("correo", e) }} />
+                    <TextInput placeholder={'DIRECCION: ' + editedCompany?.direccion} style={[styles.textbox_edit]} onChangeText={(e: string) => { handleInputChange("direccion", e) }} />
+                    <View style={[styles.rowContainer, { alignSelf : 'center' }]}>
                         <Image source={{ uri: `file://${editedCompany?.imagen}` }} style={styles.image}/>
                         <View><AddLogoComponent onLogoSelected={onChangeLogo}/></View>
                     </View>
