@@ -52,7 +52,7 @@ export const CompanyHeadCard = ({ data }: CompanyProps) => {
       <Text style={styles.companyName}>{companyValue.nombre}</Text>
 
       <View style={[styles.rowContainer, { elevation: 0 }]}>
-        <View style={{ marginTop: 10 }}>
+        <View style={{ marginTop: 10 , width : '40%'}}>
           <View>
             <View style={styles.row}>
               <Text style={styles.companyText}>RTN:</Text>
@@ -90,7 +90,7 @@ export const CompanyHeadCard = ({ data }: CompanyProps) => {
 
         </View>
 
-        <View>
+        <View style={{backgroundColor : '#f2f3f4', borderRadius : 50, position : 'relative', top : 0}}>
           <Ionicons
             name="pencil"
             size={25}

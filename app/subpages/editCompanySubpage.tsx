@@ -2,10 +2,11 @@ import { View, Text, TextInput, Image, Button } from "react-native";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { CompaniesParamList } from "../../app/_layout";
 import { styles } from "../../assets/styles/styles";
-import { Company, FacturaNumber, updateCompanies } from "../../app/storage/company";
+import { Company, FacturaNumber, impuesto, updateCompanies } from "../../app/storage/company";
 import { useEffect, useState } from "react";
 import { AddLogoComponent } from "../../app/components/addlogocompany";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { ImpuestosComponent } from "../../app/components/impuestos";
 
 type CompanyDetailProps = {
     route: RouteProp<CompaniesParamList, "EditCopany">;
@@ -34,7 +35,7 @@ export const EditCompanySubPage = ({ route }: CompanyDetailProps) => {
         setNumeroDeCorrelativo(_data_.correlativo);
     }, [route]);
 
-    const handleInputChange = (field: keyof Company, value: string | number) => {
+    const handleInputChange = (field: keyof Company, value: string | number | Array<impuesto>) => {
         SetEditedCompany({
             ...editedCompany,
             [field]: value,
@@ -71,7 +72,7 @@ export const EditCompanySubPage = ({ route }: CompanyDetailProps) => {
                         <Image source={{ uri: `file://${editedCompany?.imagen}` }} style={styles.image}/>
                         <View><AddLogoComponent onLogoSelected={onChangeLogo}/></View>
                     </View>
-                    <TextInput />
+                    <ImpuestosComponent editablecompany={editedCompany} setEditableImpuestos={handleInputChange}/>
                 </View>
             </View>
 
