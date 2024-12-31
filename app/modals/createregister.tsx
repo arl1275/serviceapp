@@ -66,7 +66,7 @@ export const ModalCreateRegister = ({ vis, closeModal}: ModalCreateRegisterProps
           }}
         >
           <View style={{ borderBottomWidth : 1, borderBottomColor : '#ebedef', padding : 10, width : '100%', marginBottom : 10}}>
-            <Text style={[styles.bigtitle, {textAlign : 'center'}]}>CREAR REGISTRO NUEVO</Text>
+            <Text style={[styles.bigtitle, {textAlign : 'center'}]}>CREAR CLIENTE NUEVO</Text>
           </View>
 
           <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 , padding : 10}}>

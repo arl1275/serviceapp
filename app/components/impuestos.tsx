@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { styles } from "../../assets/styles/styles";
-import { View, Text, TouchableOpacity, Button, TextInput, Alert, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, Button, TextInput, Alert, FlatList, ScrollView } from "react-native";
 import { Company, impuesto } from "../../app/storage/company";
 
 type PropsCompany = {
@@ -56,18 +56,18 @@ export const ImpuestosComponent = ({ editablecompany, setEditableImpuestos }: Pr
                         }}
                     />
                 </View>
-                <View>
+                <ScrollView style={{height : '20%'}}>
                     <FlatList
                         data={Impuestos}
                         keyExtractor={(item: impuesto) => item.id.toString()}
                         renderItem={({ item }) => (
-                            <View style={[styles.rowContainer, { justifyContent: "space-around" }]}>
+                            <View style={[styles.rowContainer, { justifyContent: "space-around" , padding : 10}]}>
                                 <Text>{item.nombre}</Text>
                                 <Text>{item.porcentaje.toString()}</Text>
                             </View>
                         )}
                     />
-                </View>
+                </ScrollView>
             </View>
         </View>
     );

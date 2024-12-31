@@ -10,6 +10,7 @@ import { FacturasPage } from "./page/Facturas";
 import { CrearFacturaSubPage } from "./subpages/CrearFactura";
 import { EditCompanySubPage } from "./subpages/editCompanySubpage";
 import { Company } from "./storage/company";
+import { HeadSheet } from "./storage/headservice";
 
 export type RootStackParamList = {
   home: undefined;
@@ -38,10 +39,17 @@ export type CompaniesParamList = {
   details: { itemId: number };
 };
 
+export type ClientesParamList = {
+  homeClient: undefined;
+  editClient : { _data_ : HeadSheet};
+  details: { itemId: number };
+}
+
 const Stack = createStackNavigator<RootStackParamList>();
 const DetaildataStack = createStackNavigator<DetailStackParamList>();
 const FacturasStack = createStackNavigator<FacturasParamList>();
 const CompaniesStack = createStackNavigator<CompaniesParamList>();
+const ClientesStack = createStackNavigator<ClientesParamList>();
 
 export default function RootLayout() {
   return (
