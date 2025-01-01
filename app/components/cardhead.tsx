@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { styles } from "../../assets/styles/styles";
+import { Ionicons } from "@expo/vector-icons/build/Icons";
 
 interface HeadsheetCardProps {
   head: string;
@@ -36,6 +37,10 @@ export const Headsheetcard = ({ head, des, correo, contacto, address, rtn }: Hea
         <Text style={[styles.title, {color : 'grey'}]}>{_contacto || "Contacto"}</Text>
         <Text style={[styles.title, {color : 'grey'}]}>{_address || "Direccion"}</Text>
         <Text style={[styles.title, {color : 'grey'}]}>{description || "Descripcion"}</Text>
+      </View>
+      <View>
+        <Ionicons 
+        name="pencil"/>
       </View>
     </View>
   );
