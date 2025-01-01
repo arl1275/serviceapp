@@ -11,6 +11,7 @@ import { CrearFacturaSubPage } from "./subpages/CrearFactura";
 import { EditCompanySubPage } from "./subpages/editCompanySubpage";
 import { Company } from "./storage/company";
 import { HeadSheet } from "./storage/headservice";
+import { EditClientSubpage } from "./subpages/editClientes";
 
 export type RootStackParamList = {
   home: undefined;
@@ -41,7 +42,7 @@ export type CompaniesParamList = {
 
 export type ClientesParamList = {
   homeClient: undefined;
-  editClient : { _data_ : HeadSheet};
+  editClient : { _data_ : HeadSheet,  onUpdateClient : ( data : HeadSheet) => void};
   details: { itemId: number };
 }
 
@@ -67,10 +68,10 @@ export default function RootLayout() {
       />
       <Stack.Screen
         name="registros"
-        component={RegistrosPage}
+        component={ClientesLayout}
         options={{
           title: "CLIENTES",
-          headerShown: true,
+          headerShown: false,
           headerPressColor: "blue",
           headerStyle: { backgroundColor: "white" },
           headerTintColor: "grey",
@@ -227,5 +228,42 @@ export function CompaniesLayout(){
         }}
       />
     </CompaniesStack.Navigator>
+  );
+}
+
+export function ClientesLayout(){
+  return (
+    <ClientesStack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "white" },
+        headerTintColor: "black",
+        headerTitleStyle: { fontWeight: "bold" },
+      }}
+    >
+      <ClientesStack.Screen
+        name="homeClient"
+        component={RegistrosPage}
+        options={{
+          title: "CLIENTES",
+          headerShown: true,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+      <ClientesStack.Screen
+        name="editClient"
+        component={EditClientSubpage}
+        options={{
+          title: "EDITAR",
+          headerShown: true,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+    </ClientesStack.Navigator>
   );
 }
