@@ -42,7 +42,7 @@ export type CompaniesParamList = {
 
 export type ClientesParamList = {
   homeClient: undefined;
-  editClient : { _data_ : HeadSheet,  onUpdateClient : ( data : HeadSheet) => void};
+  editClient : { _data_ : HeadSheet};
   details: { itemId: number };
 }
 

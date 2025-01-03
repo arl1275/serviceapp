@@ -56,9 +56,8 @@ export const RegistrosPage = () => {
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <View>
-                <Headsheetcard head={item.title} des={item.description} contacto={item.contacto} correo={item.correo} address={item.address} rtn={item.rtn}/>  
+                <Headsheetcard data={item}/>  
               </View>
-            
             )}
           />
         ) : (
