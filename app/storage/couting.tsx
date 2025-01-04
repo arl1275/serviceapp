@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export interface CoutingDatail {
   id: number; // ID único generado automáticamente
   id_service_sheet : number | null;
+  id_Head_Couting : number;
   detail : string;
   cantidad : number;
   descuento: number;
@@ -24,7 +25,7 @@ export const getCouting = async (): Promise<CoutingDatail[]> => {
 };
 
 // Agregar un nuevo registro
-export const addCoutingLine = async (data: CoutingDatail): Promise<void> => {
+export const addCoutingLineDetail = async (data: CoutingDatail): Promise<void> => {
   try {
     const CoutingDatails = await getCouting();
     CoutingDatails.push(data);

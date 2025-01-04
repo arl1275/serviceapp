@@ -25,18 +25,18 @@ export const FacturasPage = () => {
     }
   }, []);
 
-  const _crearFactura_ = () =>{
+  const _crearFactura_ = () => {
     try {
-      
+
     } catch (error) {
       Alert.alert('Error', 'Se genero un error al generar Factura')
     }
   }
 
-  useEffect(()=>{
-      UpdateList();
-    },[UpdateList])
-  
+  useEffect(() => {
+    UpdateList();
+  }, [UpdateList])
+
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -46,16 +46,16 @@ export const FacturasPage = () => {
           onPress={() => _crearFactura_()}
         />
       </View>
-       <FlatList
-              data={data}
-              keyExtractor={(item : HeadCouting) => item.id.toString()}
-              renderItem={({ item }) => (
-                <TouchableOpacity style={styles.sheet} >
-                  <Text style={styles.parrafo}>{item._date_}</Text>
-                  <Text>{item._NumberOfBill_}</Text>
-                </TouchableOpacity>
-              )}
-            />
+      <FlatList
+        data={data}
+        keyExtractor={(item: HeadCouting) => item.id.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.sheet} >
+            <Text style={styles.parrafo}>{item._date_}</Text>
+            <Text>{item._NumberOfBill_}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };
