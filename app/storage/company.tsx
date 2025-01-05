@@ -80,11 +80,11 @@ export const deleteCompanies = async (id: number): Promise<void> => {
 };
 
 // Filtrar registros por título
-export const filterCoutingByID = async (searchTerm: string): Promise<Company[]> => {
+export const filterCompanyByID = async (searchTerm: number): Promise<Company[]> => {
   try {
     const Companys = await getCompanies();
     const filteredCompanys = Companys.filter((item) =>
-      item.nombre = searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
+      item.id === searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
     );
     return filteredCompanys;
   } catch (error) {
