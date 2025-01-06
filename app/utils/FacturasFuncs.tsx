@@ -5,7 +5,7 @@ import { Alert } from "react-native";
 const getLastFacturaValidated = async () => {
     const LastHeadCouting = await getHCouting();
     if (!LastHeadCouting || LastHeadCouting.length === 0) {
-        return false; // Retorna null si la lista está vacía
+        return false; // Retorna false si la lista está vacía
     }
     for (let i = LastHeadCouting.length - 1; i >= 0; i--) {
         if (LastHeadCouting[i].isClosed === true) {
@@ -26,15 +26,20 @@ export const ChecksLimitdate = (LateDate: string) => {
     return new Date(LateDate).getTime() > Date.now();
 };
 
+export const JustSumNumberFActura = (ThirdNumber : number )=>{ return ThirdNumber + 1 }
 
-export const MainCalculus = (LastFactura : HeadCouting , CompanyRanges : any) =>{
+export const FormattedFactura = async (correlativo : FacturaNumber , id_company : number) =>{
+    
+}
+
+export const MainCalculus = (LastFactura : HeadCouting | boolean, CompanyRanges : any) =>{
     const Fecha : string = CompanyRanges.fechalimite;
     const Rango : number = CompanyRanges.rango;
     const Correlativo : FacturaNumber = CompanyRanges.correlativo;
     if(ChecksLimitdate(Fecha)){
         if(Correlativo.thirdNumbers < Rango){
-            const NewLastNumber : number = Correlativo.thirdNumbers + 1;
-            return NewLastNumber;
+            const NewCorrelativo = JustSumNumberFActura(Correlativo.thirdNumbers)
+            return NewCorrelativo;
         }else{
             return false;
         }
@@ -48,7 +53,7 @@ export async function GetCalculatedFactura(id_company: number) {
         const ValuesCompany = await getCompanyByIDRange(id_company);
         const LastFacturaValidated: boolean | HeadCouting = await getLastFacturaValidated();
 
-        if (typeof LastFacturaValidated === "object") {
+        if (typeof LastFacturaValidated === "object" || LastFacturaValidated == false) {
             const CalculatedFactura = MainCalculus(LastFacturaValidated, ValuesCompany);
             return CalculatedFactura; // Retorna el resultado
         } else {
