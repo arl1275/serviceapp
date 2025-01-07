@@ -28,9 +28,14 @@ export const ChecksLimitdate = (LateDate: string) => {
 
 export const JustSumNumberFActura = (ThirdNumber : number )=>{ return ThirdNumber + 1 }
 
-export const FormattedFactura = async (correlativo : FacturaNumber , id_company : number) =>{
-    
-}
+export const FormattedFactura = async (correlativo: FacturaNumber, id_company: number): Promise<string> => {
+    let valor: string = "";
+    Object.keys(correlativo).forEach((key) => {
+        valor += key.toString(); 
+    });
+    return valor;
+};
+
 
 export const MainCalculus = (LastFactura : HeadCouting | boolean, CompanyRanges : any) =>{
     const Fecha : string = CompanyRanges.fechalimite;
