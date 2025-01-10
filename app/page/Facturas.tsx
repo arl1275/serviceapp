@@ -7,10 +7,7 @@ import { HeadCouting, getHCouting } from "../../app/storage/headCouting";
 import React, { useState, useEffect, useCallback } from "react";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
 
-type HomeScreenNavigationProp = StackNavigationProp<
-  FacturasParamList,
-  "homeFactura"
->;
+type HomeScreenNavigationProp = StackNavigationProp<FacturasParamList,"homeFactura">;
 
 export const FacturasPage = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -25,13 +22,7 @@ export const FacturasPage = () => {
     }
   }, []);
 
-  const _crearFactura_ = () => {
-    try {
-
-    } catch (error) {
-      Alert.alert('Error', 'Se genero un error al generar Factura')
-    }
-  }
+  const _crearFactura_ = () => {navigation.navigate("CrearFActura")}
 
   useEffect(() => {
     UpdateList();
