@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface userBillName {
+export interface userBillName {
   name : string;
   RTN : string;
 }
@@ -18,6 +18,7 @@ export interface HeadCouting {
     LinkedSherviceSheet : number;
     hasCreditNote : boolean;
     id_CreditNote : number | null;
+    isCanceled : boolean;
 }
 
 const STORAGE_KEY = 'HeadCouting';
