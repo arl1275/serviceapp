@@ -10,20 +10,30 @@ import { HeadFacturaConfig } from "../../app/components/factura_head";
 
 export const CrearFacturaSubPage = () => {
     const [HeadCount, setHeadCount] = useState<HeadCouting>();
-    const [CoutingDetail, setCoutingDetail] = useState<CoutingDatail[]>([]);
+    const [CoutingDetail, setCoutingDetail] = useState<CoutingDatail[]>();
+    const [savedHead, setSavedHead] = useState<boolean>(false);
     //-- detail bill head 
     const [DetailUser, setDetailUser] = useState<userBillName>();
     const [DetailComp, setDetailComp] = useState<Company>()
-
-    const _onSaveUserBill = ( NewValue : userBillName) =>{ setDetailUser(NewValue)};
-    const _onSaveCompany = (NewValue : Company) =>{ setDetailComp(NewValue)}
+    const SaveHeadFacturaFinish = () => { setSavedHead(!savedHead) };
+    const _onSaveUserBill = (NewValue: userBillName) => { setDetailUser(NewValue) };
+    const _onSaveCompany = (NewValue: Company) => { setDetailComp(NewValue) }
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={[styles.bigtitle]}>FACTURACION</Text>
-            <View>
-                <HeadFacturaConfig onSaveValue={_onSaveUserBill} onSaveCompany={_onSaveCompany} />
-            </View>
+            {
+                savedHead === false ?
+                    <View>
+                        <HeadFacturaConfig onSaveValue={_onSaveUserBill} onSaveCompany={_onSaveCompany} OnSaveFactura={SaveHeadFacturaFinish} />
+                    </View>
+                    :
+                    <View>
+                        <Text style={styles.title}>{DetailUser?.name}</Text>
+                        <Text style={styles.title}>{DetailComp?.nombre}</Text>
+                    </View>
+            }
+
         </View>
     )
 }

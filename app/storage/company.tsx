@@ -92,3 +92,17 @@ export const filterCompanyByID = async (searchTerm: number): Promise<Company[]> 
     return [];
   }
 };
+
+export const filterCompanyByName = async (searchTerm: string): Promise<Company[]> => {
+  try {
+    const Companys = await getCompanies();
+    const filteredCompanys = Companys.filter((item) =>
+      item.nombre === searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
+    );
+    return filteredCompanys;
+  } catch (error) {
+    console.error('Error al filtrar los registros:', error);
+    return [];
+  }
+};
+
