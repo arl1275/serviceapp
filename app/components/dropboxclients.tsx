@@ -31,7 +31,7 @@ interface Props {
   
     useEffect(() => {
       selectedvalue(selectedValue);
-    }, [selectedValue, selectedvalue]);
+    }, [selectedValue]);
   
     return (
       <View style={styles.DropBoxcontainer}>

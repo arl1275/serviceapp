@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   },
   DropBoxpicker: {
     width: "100%",
-    height: 50,
+    height: "auto",
     borderWidth: 1,
     borderColor: "#ccc",
     backgroundColor: "#f8f8f8",

@@ -31,11 +31,11 @@ export const DropboxCompany: React.FC<Props> = ({ isactive, selectedvalue }) => 
   useEffect(() => { Updating()}, [selectedValue, selectedvalue]);
 
   return (
-    <View style={styles.DropBoxcontainer}>
+    <View style={[styles.DropBoxcontainer, { padding : 20 }]}>
       <Picker
         selectedValue={selectedValue}
         onValueChange={(itemValue) => setSelectedValue(itemValue)}
-        style={styles.DropBoxpicker}
+        style={[styles.DropBoxpicker]}
       >
         {clients.map((client) => (
           <Picker.Item label={client.nombre} value={client.nombre} key={client.id} />

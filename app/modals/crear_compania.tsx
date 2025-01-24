@@ -30,12 +30,12 @@ export const ModalcreateCompany = ({
   onUpdate,
 }: ModalCreateRegisterProps) => {
   const [NumeroDeCorrelativo, setNumeroDeCorrelativo] = useState<FacturaNumber>(
-    { 
-      id: Date.now(), 
-      FirstNumbers: 0, 
-      SeconNumbers: 0, 
-      thirdNumbers: 0, 
-      LastNumbers: 0 
+    {
+      id: Date.now(),
+      FirstNumbers: 0,
+      SeconNumbers: 0,
+      thirdNumbers: 0,
+      LastNumbers: 0
     }
   );
   const [newCompany, setNewCompany] = useState<Company>({
@@ -62,10 +62,10 @@ export const ModalcreateCompany = ({
   const _closePicker_ = () => {
     setDatePickerVisible(false);
   };
-  const _onSelectedLogo_ = ( value : string )=>{
+  const _onSelectedLogo_ = (value: string) => {
     setNewCompany({
       ...newCompany,
-      imagen : value,
+      imagen: value,
     });
   }
 
@@ -101,14 +101,14 @@ export const ModalcreateCompany = ({
       ...NumeroDeCorrelativo,
       [field]: parseInt(value) || 0, // Asegúrate de manejar valores no válidos
     };
-  
+
     setNumeroDeCorrelativo(updatedCorrelativo);
     setNewCompany((prevCompany) => ({
       ...prevCompany,
       correlativo: updatedCorrelativo,
     }));
   };
-  
+
 
   return (
     <Modal
@@ -140,7 +140,7 @@ export const ModalcreateCompany = ({
             CREAR COMPAÑÍA NUEVA
           </Text>
           {Object.keys(newCompany).map((key) => (
-            <View key={key} style={[styles.textbox, {padding : 10}]}>
+            <View key={key} style={[styles.textbox, { padding: 10 }]}>
               {key === "fechalimite" ? (
                 <TouchableOpacity
                   onPress={() => {
@@ -156,29 +156,29 @@ export const ModalcreateCompany = ({
                 </TouchableOpacity>
               ) :
                 key === "correlativo" ? (
-                  <View style={[styles.rowContainer, {elevation : 0}]}>
-                    <TextInput placeholder="Ingrese FNumero"  onChangeText={(value: string) => AddCorrelativeNumber("FirstNumbers", value)} />
-                      <Text>-</Text>
+                  <View style={[styles.rowContainer, { elevation: 0 }]}>
+                    <TextInput placeholder="Ingrese FNumero" onChangeText={(value: string) => AddCorrelativeNumber("FirstNumbers", value)} />
+                    <Text>-</Text>
                     <TextInput placeholder="Ingrese SNumero" onChangeText={(value: string) => AddCorrelativeNumber("SeconNumbers", value)} />
                     <Text>-</Text>
                     <TextInput placeholder="Ingrese TNumero" onChangeText={(value: string) => AddCorrelativeNumber("thirdNumbers", value)} />
                     <Text>-</Text>
                     <TextInput placeholder="Ingrese LNumero" onChangeText={(value: string) => AddCorrelativeNumber("LastNumbers", value)} />
                   </View>
-                ) : 
-                key === 'imagen' ?
-                (<View style={{ height : 50, justifyContent : 'center', alignItems : 'center'}}>
-                  <AddLogoComponent onLogoSelected={_onSelectedLogo_}/>
-                  </View>) :
-                (
-                  <TextInput
-                    placeholder={`Ingrese ${key}`}
-                    value={newCompany[key as keyof Company]?.toString() || ""}
-                    onChangeText={(text) =>
-                      handleInputChange(key as keyof Company, text)
-                    }
-                  />
-                )}
+                ) :
+                  key === 'imagen' ?
+                    (<View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                      <AddLogoComponent onLogoSelected={_onSelectedLogo_} />
+                    </View>) :
+                    (
+                      <TextInput
+                        placeholder={`Ingrese ${key}`}
+                        value={newCompany[key as keyof Company]?.toString() || ""}
+                        onChangeText={(text) =>
+                          handleInputChange(key as keyof Company, text)
+                        }
+                      />
+                    )}
             </View>
           ))}
           <DatePicker
@@ -195,9 +195,9 @@ export const ModalcreateCompany = ({
               borderRadius: 5,
               marginTop: 15,
               padding: 10,
-              width : '100%'
+              width: '100%'
             }}
-            onPress={async ()=>{ await _CreateRegister_()}}
+            onPress={async () => { await _CreateRegister_() }}
           >
             <Text style={{ color: "white", textAlign: "center" }}>CREAR</Text>
           </TouchableOpacity>
