@@ -8,11 +8,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 interface props {
     addCoutingLine: (value: CoutingDatail) => void;
-    DeleteCoutingLine: (value: CoutingDatail) => void;
-    editCoutingLine: (value: CoutingDatail) => void;
-    data: CoutingDatail[];
-    id_head_Couting: number;
-    id_head_sheet: number;
+    DeleteCoutingLine: (value: number) => void;
+    editCoutingLine: (_id_ : number, value: CoutingDatail) => void;
+    data: CoutingDatail[] | null;
+    id_head_Couting: number ;
+    id_head_sheet: number | null;
 }
 
 export const RegisterCountingLine: React.FC<props> = ({ addCoutingLine, DeleteCoutingLine, editCoutingLine, data, id_head_Couting, id_head_sheet }) => {
@@ -28,17 +28,17 @@ export const RegisterCountingLine: React.FC<props> = ({ addCoutingLine, DeleteCo
     });
     const [addLine, setAddline] = useState<boolean>(false);
     const [saveLine, setSaveLine] = useState<boolean>(false);
-    const [valoresFactura, setValoresFactura] = useState<CoutingDatail[]>(data);
+    const [valoresFactura, setValoresFactura] = useState<CoutingDatail[]>([]);
 
     const SaveLineDetail = () => {
-        updateVAlue('id_service_sheet', id_head_sheet);
+        updateVAlue('id_service_sheet', id_head_sheet ? id_head_sheet : 0);
         updateVAlue('id_Head_Couting', id_head_Couting);
         updateVAlue('_data_', getFormattedDate());
         addCoutingLine(CoutingLine);
         isAdding();
     }
 
-    useEffect(() => { setValoresFactura(data) }, [data]);
+    useEffect(() => { data?.length ? setValoresFactura(data) : null }, [data]);
 
     useEffect(() => {
         SaveLineDetail();
@@ -75,7 +75,7 @@ export const RegisterCountingLine: React.FC<props> = ({ addCoutingLine, DeleteCo
                                 size={20}
                                 color="red"
                                 style={{ margin: 10 }}
-                                onPress={() => DeleteCoutingLine(item)}
+                                onPress={() => DeleteCoutingLine(item.id)}
                             />
                         </View>
                     )}
