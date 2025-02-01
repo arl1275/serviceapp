@@ -22,8 +22,11 @@ export const CrearFacturaSubPage = () => {
     const _onSaveCompany = (NewValue: Company) => { setDetailComp(NewValue) };
     const CancelFActura = () =>{setSavedHead(false)};
 
-    const AddCountingLineDet = (value : CoutingDatail) =>{setCoutingDetail((prev)=>({ ...prev, value}))};
-    const DeleteCoutingLineDet = ( id : number) =>{ setCoutingDetail(CoutingDetail.filter((item :CoutingDatail)=>{ item.id != id })) };
+    const AddCountingLineDet = (value : CoutingDatail) =>{setCoutingDetail((prev)=>[ ...prev, value])};
+    const DeleteCoutingLineDet = (id: number) => {
+        setCoutingDetail(CoutingDetail.filter((item: CoutingDatail) => item.id !== id));
+    };
+    
 
 
     return (

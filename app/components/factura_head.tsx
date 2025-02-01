@@ -41,7 +41,8 @@ export const HeadFacturaConfig: React.FC<props> = ({ onSaveCompany, onSaveValue,
 
     return (
         <View style={{display : 'flex', flexDirection : 'column'}}>
-            <View onPointerEnter={_onActiveClient_} style={{ }}>
+            <View onPointerEnter={_onActiveClient_} style={[styles.rowContainer, { elevation : 0, alignSelf : 'center', width : '100%'}]}>
+                <Text style={[styles.title,  {margin : 10}]}>Emisor</Text>
                 <DropboxCompany isactive={IsClientF} selectedvalue={setCompany} />
             </View>
 
