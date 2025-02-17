@@ -1,72 +1,61 @@
-import { HeadCouting, addCoutingLine, getHCouting } from "../../app/storage/headCouting";
+import { HeadCouting, addCoutingLine, getHCouting, GetFacturasByCompany } from "../../app/storage/headCouting";
 import { Company, FacturaNumber, getCompanies, filterCompanyByID } from "../../app/storage/company";
 import { Alert } from "react-native";
+import { getFormattedDate } from "../../app/modals/crear_service_detail";
 
-const getLastFacturaValidated = async () => {
-    const LastHeadCouting = await getHCouting();
-    if (!LastHeadCouting || LastHeadCouting.length === 0) {
-        return false; // Retorna false si la lista está vacía
-    }
-    for (let i = LastHeadCouting.length - 1; i >= 0; i--) {
-        if (LastHeadCouting[i].isClosed === true) {
-            return LastHeadCouting[i];
-        }
-    }
-    return true;
-};
-
-
-export const getCompanyByIDRange = async ( id_company : number) =>{
-    const value : Company[] = await filterCompanyByID(id_company);
-    const [rango, correlativo, fechalimite] = value;
-    return {rango, correlativo, fechalimite};
-}
-
-export const ChecksLimitdate = (LateDate: string) => {
-    return new Date(LateDate).getTime() > Date.now();
-};
-
-export const JustSumNumberFActura = (ThirdNumber : number )=>{ return ThirdNumber + 1 }
-
-export const FormattedFactura = async (correlativo: FacturaNumber, nuewNumber: number): Promise<string> => {
-    let valor: string = "";
-    Object.keys(correlativo).forEach((key) => {
-        key != "LastNumbers" ? valor += ' - ' + key.toString() : valor+='-' +nuewNumber; 
-    });
-    return valor;
-};
-
-
-export const MainCalculus = (LastFactura : HeadCouting | boolean, CompanyRanges : any) =>{
-    const Fecha : string = CompanyRanges.fechalimite;
-    const Rango : number = CompanyRanges.rango;
-    const Correlativo : FacturaNumber = CompanyRanges.correlativo;
-    if(ChecksLimitdate(Fecha)){
-        if(Correlativo.thirdNumbers < Rango){
-            const NewCorrelativo = JustSumNumberFActura(Correlativo.thirdNumbers)
-            return NewCorrelativo;
-        }else{
-            return false;
-        }
-    }else{
-        return false;
-    }
-}
-
-export async function GetCalculatedFactura(id_company: number) {
-    try {
-        const ValuesCompany = await getCompanyByIDRange(id_company);
-        const LastFacturaValidated: boolean | HeadCouting = await getLastFacturaValidated();
-
-        if (typeof LastFacturaValidated === "object" || LastFacturaValidated == false) {
-            const CalculatedFactura = MainCalculus(LastFacturaValidated, ValuesCompany);
-            return CalculatedFactura; // Retorna el resultado
+export const GenerateFacturaNumber = async (id_company: number) => {
+    const company: Company[] = await filterCompanyByID(id_company);
+    if (company && company.length > 0) {
+        if (ValidateDate(company[0]) === false) {
+            const TodasLasFacturasPorEmpresa: HeadCouting[] = await GetFacturasByCompany(company[0].id);
+            if (TodasLasFacturasPorEmpresa && TodasLasFacturasPorEmpresa.length > 0) {
+                return nextFactura(TodasLasFacturasPorEmpresa, company[0])
+            } else {
+                return FirstFactura(company[0]);
+            }
         } else {
-            Alert.alert('Información', 'No se encontró una factura válida.');
-            return null; // Retorna null si no hay factura válida
+            Alert.alert('Fecha Superada', 'Se llego al limite de tiempo para emitir facturas');
+            return null;
         }
-    } catch (error) {
-        Alert.alert('Error', 'Error al calcular la última factura');
-        console.error(error); // Agrega un log para depuración
+    } else {
+        Alert.alert("Error", "Company not found");
+        return null;
     }
+}
+
+const ValidateDate = (Empresa : Company) => {
+    const [year, month, day] = Empresa.fechalimite.split("-").map(Number);
+    const LimitDateCompany = new Date(year, month - 1, day); 
+    const CurrentDate = new Date(); 
+    return LimitDateCompany.getTime() <= CurrentDate.getTime();
+};
+
+
+const nextFactura = (AllFacturas: HeadCouting[], Empresa: Company) => {
+    const LastFacuta = AllFacturas[AllFacturas.length - 1];
+    const NewLastFacturaNumber: FacturaNumber = {
+        id: Date.now(),
+        FirstNumbers: Empresa.correlativo.FirstNumbers,
+        SeconNumbers: Empresa.correlativo.SeconNumbers,
+        thirdNumbers: Empresa.correlativo.thirdNumbers,
+        LastNumbers: Empresa.correlativo.LastNumbers
+    };
+    if (LastFacuta._NumberOfBill_.LastNumbers < Empresa.rango) {
+        NewLastFacturaNumber.LastNumbers = LastFacuta._NumberOfBill_.LastNumbers + 1;
+    } else {
+        Alert.alert('ERROR', 'No hay Correlativos disponibles para una factura nueva.');
+        return null;
+    }
+    return NewLastFacturaNumber;
+}
+
+const FirstFactura = (Empresa: Company) => {
+    const NewLastFacturaNumber: FacturaNumber = {
+        id: Date.now(),
+        FirstNumbers: Empresa.correlativo.FirstNumbers,
+        SeconNumbers: Empresa.correlativo.SeconNumbers,
+        thirdNumbers: Empresa.correlativo.thirdNumbers,
+        LastNumbers: Empresa.correlativo.LastNumbers + 1
+    };
+    return NewLastFacturaNumber;
 }

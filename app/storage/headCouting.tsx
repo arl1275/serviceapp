@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FacturaNumber } from './company';
 
 export interface userBillName {
   name : string;
@@ -7,7 +8,7 @@ export interface userBillName {
 
 export interface HeadCouting {
     id : number;
-    _NumberOfBill_ : string;
+    _NumberOfBill_ : FacturaNumber;
     ClientName : userBillName;
     _date_ : string;
     isClosed : boolean;
@@ -19,6 +20,7 @@ export interface HeadCouting {
     hasCreditNote : boolean;
     id_CreditNote : number | null;
     isCanceled : boolean;
+    id_Company_Related : number;
 }
 
 const STORAGE_KEY = 'HeadCouting';
@@ -72,13 +74,26 @@ export const deleteHCouting = async (id: number): Promise<void> => {
 };
 
 // Filtrar registros por título
-export const filterHeadCoutingBytitle = async ( searchTerm : string ): Promise<HeadCouting[]> => {
+export const filterHeadCoutingBytitle = async ( searchTerm : FacturaNumber ): Promise<HeadCouting[]> => {
   try {
     const CoutingH = await getHCouting();
     const filteredHeadC = CoutingH.filter((item  : HeadCouting) =>
       item._NumberOfBill_ === searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
     );
     return filteredHeadC;
+  } catch (error) {
+    console.error('Error al filtrar los registros:', error);
+    return [];
+  }
+};
+
+export const GetFacturasByCompany = async ( searchTerm : number ): Promise<HeadCouting[]> => {
+  try {
+    const CoutingH = await getHCouting();
+    const filteredHeadC = CoutingH.filter((item  : HeadCouting) =>
+      item.id_Company_Related === searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
+    );
+    return filteredHeadC.sort((a, b)=> a.id - b.id);
   } catch (error) {
     console.error('Error al filtrar los registros:', error);
     return [];
