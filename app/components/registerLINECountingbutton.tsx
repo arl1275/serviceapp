@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextInput, View, FlatList, Text } from "react-native";
+import { Button, TextInput, View, FlatList, Text, Alert } from "react-native";
 import { CoutingDatail } from "../../app/storage/couting";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
 import { styles } from "../../assets/styles/styles";
@@ -39,14 +39,23 @@ export const RegisterCountingLine: React.FC<props> = ({
     const SaveLineDetail = () => {
         setCoutingLine((prev) => ({
             ...prev,
-            id: Date.now(), 
+            id: Date.now(),
             id_service_sheet: id_head_sheet ? id_head_sheet : 0,
             id_Head_Couting: id_head_Couting,
             _date_: getFormattedDate(),
         }));
 
-        addCoutingLine(CoutingLine);
-        isAdding();
+        if (CoutingLine.price === 0.0) {
+            Alert.alert('FALTA DE DATOS', 'Favor, agrege la informacion requerida para la factura',
+                [{
+                    text: 'Aceptar',
+                    style: 'default',
+                    onPress: () => isAdding()
+                }])
+        } else {
+            addCoutingLine(CoutingLine);
+            isAdding();
+        }
     };
 
     useEffect(() => {
@@ -56,7 +65,7 @@ export const RegisterCountingLine: React.FC<props> = ({
     useEffect(() => {
         if (saveLine) {
             SaveLineDetail();
-            setSaveLine(false); 
+            setSaveLine(false);
         }
     }, [saveLine]);
 
@@ -72,25 +81,37 @@ export const RegisterCountingLine: React.FC<props> = ({
 
     return (
         <View>
-            <Button title="CREAR LINEA" onPress={isAdding} />
+            <View style={{width : '100%'}}><Button title="CREAR LINEA" onPress={isAdding} /></View>
+            
+            {
+                valoresFactura.length > 0 &&
+                <View style={[styles.rowContainer, { alignContent: 'space-between', margin: 5 }]}>
+                    <Text>Detalle</Text>
+                    <Text>Cantidad</Text>
+                    <Text>Descuento</Text>
+                    <Text>Precio</Text>
+                    <Text>ACCION</Text>
+                </View>
+            }
             {addLine && (
-                <View style={[styles.rowContainer, { padding: 5 }]}>
-                    <TextInput placeholder="DETALLE" onChangeText={(e) => updateVAlue("detail", e)} style={[styles.textbox_edit, { width: "20%" }]} />
-                    <TextInput placeholder="CANTIDAD" keyboardType="numeric" onChangeText={(e) => updateVAlue("cantidad", Number(e) || 1)} style={[styles.textbox_edit, { width: "20%" }]} />
-                    <TextInput placeholder="DESCUENTO" keyboardType="numeric" onChangeText={(e) =>updateVAlue("descuento", Number(e) || 1)} style={[styles.textbox_edit, { width: "20%" }]} />
-                    <TextInput placeholder="PRECIO" keyboardType="numeric" onChangeText={(e) => updateVAlue("price", Number(e) || 1)} style={[styles.textbox_edit, { width: "20%" }]} />
+                <View style={[styles.rowContainer, { padding: 3, margin : 5, width : '100%' }]}>
+                    <TextInput placeholder="DETALLE" onChangeText={(e) => updateVAlue("detail", e)} style={[styles.textbox_edit, { width: "15%" }]} />
+                    <TextInput placeholder="CANTIDAD" keyboardType="numeric" onChangeText={(e) => updateVAlue("cantidad", Number(e) || 1)} style={[styles.textbox_edit, { width: "15%" }]} />
+                    <TextInput placeholder="DESCUENTO" keyboardType="numeric" onChangeText={(e) => updateVAlue("descuento", Number(e) || 0)} style={[styles.textbox_edit, { width: "15%" }]} />
+                    <TextInput placeholder="PRECIO" keyboardType="numeric" onChangeText={(e) => updateVAlue("price", Number(e) || 1)} style={[styles.textbox_edit, { width: "15%" }]} />
                     <Button title="Agregar" onPress={Add} />
                 </View>
             )}
+
             <FlatList
                 data={valoresFactura}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={[styles.rowContainer, {alignContent : 'space-between', margin : 5}]}>
-                        <Text>{item.detail}</Text>
-                        <Text>{item.cantidad}</Text>
-                        <Text>{item.descuento}</Text>
-                        <Text>{item.price}</Text>
+                    <View style={[styles.rowContainer, { alignContent: 'space-between', margin: 5 }]}>
+                        <Text style={{width : '15%'}}>{item.detail}</Text>
+                        <Text style={{width : '15%'}}>{item.cantidad}</Text>
+                        <Text style={{width : '15%'}}>{item.descuento}</Text>
+                        <Text style={{width : '15%'}}>{item.price}</Text>
                         <Ionicons name="trash" size={20} color="red" style={{ margin: 10 }} onPress={() => DeleteCoutingLine(item.id)} />
                     </View>
                 )}

@@ -34,7 +34,7 @@ export const CrearFacturaSubPage = () => {
             <Text style={[styles.bigtitle, {margin : 7}]}>{savedHead ? "FACTURA" : "DETALLE FACTURA"}</Text>
             {
                 savedHead === false ?
-                    <View style={[styles.card, { borderWidth: 1, borderColor: 'grey'}]}>
+                    <View style={[styles.card, { borderWidth: 1, borderColor: 'grey', backgroundColor : 'white'}]}>
                         <HeadFacturaConfig onSaveValue={_onSaveUserBill} onSaveCompany={_onSaveCompany} OnSaveFactura={SaveHeadFacturaFinish} />
                     </View>
                     :

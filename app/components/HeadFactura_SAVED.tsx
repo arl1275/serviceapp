@@ -4,6 +4,7 @@ import { userBillName } from "../../app/storage/headCouting";
 import { View, Text, Button } from "react-native";
 import { styles } from "../../assets/styles/styles";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
+import { GetCalculatedFactura } from "../../app/utils/FacturasFuncs";
 
 interface props {
     _OnCancel_: () => void;
@@ -14,7 +15,17 @@ interface props {
 export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, empresa, Usuario }) => {
     const [Empresa, setEmpresa] = useState<Company>();
     const [usuario, setUsuario] = useState<userBillName>();
-    const UpdatingValues = () => { setEmpresa(empresa); setUsuario(Usuario) }
+    const [FactNumber, SetFactnumber] = useState<any>();
+
+    const FActuNum_ = async () =>{
+        empresa && typeof empresa === 'object' && SetFactnumber(await GetCalculatedFactura(empresa.id));
+    }
+
+    const UpdatingValues = async () => { 
+        empresa && typeof empresa === 'object' && setEmpresa(empresa); 
+        setUsuario(Usuario); 
+        await FActuNum_() 
+    }
 
     useEffect(() => {
         UpdatingValues();
@@ -24,6 +35,7 @@ export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, empresa, Usuario
         <View style={[styles.card, { borderWidth : 1, borderColor : 'grey'}]}>
             <Button title="CANCELAR" onPress={_OnCancel_} color={'red'}/>
             <View>
+                <Text>Factura : {FactNumber}</Text>
                 <Text style={[styles.title, {fontWeight : 'bold'}]}>{Empresa?.nombre}</Text>
                 <Text style={[styles.title, {fontWeight : 'bold'}]}>Fecha {getFormattedDate()}</Text>
                 <Text style={styles.title}>Direccion: {Empresa?.direccion}</Text>
