@@ -81,7 +81,7 @@ export const RegisterCountingLine: React.FC<props> = ({
 
     return (
         <View>
-            <View style={{width : '100%'}}><Button title="CREAR LINEA" onPress={isAdding} /></View>
+            <View style={{margin : 5}}><Button title="CREAR LINEA" onPress={isAdding} /></View>
             
             {
                 valoresFactura.length > 0 &&
@@ -94,12 +94,13 @@ export const RegisterCountingLine: React.FC<props> = ({
                 </View>
             }
             {addLine && (
-                <View style={[styles.rowContainer, { padding: 3, margin : 5, width : '100%' }]}>
-                    <TextInput placeholder="DETALLE" onChangeText={(e) => updateVAlue("detail", e)} style={[styles.textbox_edit, { width: "15%" }]} />
-                    <TextInput placeholder="CANTIDAD" keyboardType="numeric" onChangeText={(e) => updateVAlue("cantidad", Number(e) || 1)} style={[styles.textbox_edit, { width: "15%" }]} />
-                    <TextInput placeholder="DESCUENTO" keyboardType="numeric" onChangeText={(e) => updateVAlue("descuento", Number(e) || 0)} style={[styles.textbox_edit, { width: "15%" }]} />
-                    <TextInput placeholder="PRECIO" keyboardType="numeric" onChangeText={(e) => updateVAlue("price", Number(e) || 1)} style={[styles.textbox_edit, { width: "15%" }]} />
-                    <Button title="Agregar" onPress={Add} />
+                <View style={[styles.rowContainer, { padding: 3, margin : 5, width : 'auto' }]}>
+                    <TextInput placeholder="DETALLE" onChangeText={(e) => updateVAlue("detail", e)} style={[styles.textbox_edit, { width: "20%" }]} />
+                    <TextInput placeholder="CANTIDAD" keyboardType="numeric" onChangeText={(e) => updateVAlue("cantidad", Number(e) || 1)} style={[styles.textbox_edit, { width: "20%" }]} />
+                    <TextInput placeholder="DESCUENTO" keyboardType="numeric" onChangeText={(e) => updateVAlue("descuento", Number(e) || 0)} style={[styles.textbox_edit, { width: "20%" }]} />
+                    <TextInput placeholder="PRECIO" keyboardType="numeric" onChangeText={(e) => updateVAlue("price", Number(e) || 1)} style={[styles.textbox_edit, { width: "20%" }]} />
+                    <View style={[{ width : '10%'}]}><Button title="Agregar" onPress={Add} /></View>
+                    
                 </View>
             )}
 

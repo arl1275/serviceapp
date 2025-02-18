@@ -40,7 +40,10 @@ export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, empresa, Usuario
 
     return (
         <View style={[styles.card, { borderWidth: 1, borderColor: "grey", padding: 10 }]}>
-            <Button title="CANCELAR" onPress={_OnCancel_} color={"red"} />
+            <View>
+                <Button title="CANCELAR" onPress={_OnCancel_} color={"red"} />
+            </View>
+
 
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 {/* 📌 Columna 1 - Información de la Empresa */}
