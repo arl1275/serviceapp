@@ -6,6 +6,7 @@ import { styles } from "../../assets/styles/styles";
 import { HeadCouting, getHCouting } from "../../app/storage/headCouting";
 import React, { useState, useEffect, useCallback } from "react";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
+import { FacturaNumber } from "../../app/storage/company";
 
 type HomeScreenNavigationProp = StackNavigationProp<FacturasParamList,"homeFactura">;
 
@@ -28,6 +29,12 @@ export const FacturasPage = () => {
     UpdateList();
   }, [UpdateList])
 
+  const FormattedFacturaNumber = (item : FacturaNumber) => {
+    return item?.FirstNumbers.toString() + '-'
+        +  item?.SeconNumbers.toString() + '-'
+        +  item?.thirdNumbers.toString() + '-'
+        +  item?.LastNumbers.toString()
+}
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -43,7 +50,7 @@ export const FacturasPage = () => {
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.sheet} >
             <Text style={styles.parrafo}>{item._date_}</Text>
-            <Text>{item._NumberOfBill_}</Text>
+            <Text>{FormattedFacturaNumber(item._NumberOfBill_)}</Text>
           </TouchableOpacity>
         )}
       />

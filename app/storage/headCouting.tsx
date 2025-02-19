@@ -36,7 +36,7 @@ export const getHCouting = async (): Promise<HeadCouting[]> => {
 };
 
 // Agregar un nuevo registro
-export const addCoutingLine = async ( data : HeadCouting): Promise<void> => {
+export const addHeadCouting = async ( data : HeadCouting): Promise<void> => {
   try {
     const CoutingH = await getHCouting();
     CoutingH.push(data);

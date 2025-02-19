@@ -8,11 +8,13 @@ import { GenerateFacturaNumber } from "../../app/utils/FacturasFuncs";
 
 interface props {
     _OnCancel_: () => void;
+    _OnGenerateFactura_ : () => void;
+    _OnSaveFacturaNummber_ : ( value : FacturaNumber) => void;
     empresa: Company | undefined;
     Usuario: userBillName | undefined;
 }
 
-export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, empresa, Usuario }) => {
+export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, _OnGenerateFactura_, _OnSaveFacturaNummber_,empresa, Usuario }) => {
     const [Empresa, setEmpresa] = useState<Company>();
     const [usuario, setUsuario] = useState<userBillName>();
     const [FactNumber, SetFactnumber] = useState<FacturaNumber | null>();
@@ -24,7 +26,8 @@ export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, empresa, Usuario
     const UpdatingValues = async () => {
         empresa && typeof empresa === 'object' && setEmpresa(empresa);
         setUsuario(Usuario);
-        await FActuNum_()
+        await FActuNum_();
+        FactNumber ? _OnSaveFacturaNummber_(FactNumber) : null;
     }
 
     const FormattedFacturaNumber = () => {
@@ -40,8 +43,9 @@ export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, empresa, Usuario
 
     return (
         <View style={[styles.card, { borderWidth: 1, borderColor: "grey", padding: 10 }]}>
-            <View>
+            <View style={[styles.rowContainer]}>
                 <Button title="CANCELAR" onPress={_OnCancel_} color={"red"} />
+                <Button title="GENERAR FACTURA" onPress={_OnGenerateFactura_} color={"blue"} />
             </View>
 
 
