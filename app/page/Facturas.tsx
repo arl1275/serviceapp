@@ -5,10 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../assets/styles/styles";
 import { HeadCouting, getHCouting } from "../../app/storage/headCouting";
 import React, { useState, useEffect, useCallback } from "react";
-import { getFormattedDate } from "../../app/modals/crear_service_detail";
-import { FacturaNumber } from "../../app/storage/company";
+//import { getFormattedDate } from "../../app/modals/crear_service_detail";
+import { FacturaNumber, filterCompanyByID, Company } from "../../app/storage/company";
 
-type HomeScreenNavigationProp = StackNavigationProp<FacturasParamList,"homeFactura">;
+type HomeScreenNavigationProp = StackNavigationProp<FacturasParamList, "homeFactura">;
 
 export const FacturasPage = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -23,18 +23,22 @@ export const FacturasPage = () => {
     }
   }, []);
 
-  const _crearFactura_ = () => {navigation.navigate("CrearFActura")}
+  const _crearFactura_ = () => { navigation.navigate("CrearFActura") }
+  const _GetCompanyInfo_ = async (item: number) => { 
+    const valyes : Company[] = await filterCompanyByID(item);
+    return valyes[0]
+   }
 
   useEffect(() => {
     UpdateList();
   }, [UpdateList])
 
-  const FormattedFacturaNumber = (item : FacturaNumber) => {
+  const FormattedFacturaNumber = (item: FacturaNumber) => {
     return item?.FirstNumbers.toString() + '-'
-        +  item?.SeconNumbers.toString() + '-'
-        +  item?.thirdNumbers.toString() + '-'
-        +  item?.LastNumbers.toString()
-}
+      + item?.SeconNumbers.toString() + '-'
+      + item?.thirdNumbers.toString() + '-'
+      + item?.LastNumbers.toString()
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -50,9 +54,12 @@ export const FacturasPage = () => {
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.sheet} >
             <Text style={styles.parrafo}>{item._date_}</Text>
-            <Text>{FormattedFacturaNumber(item._NumberOfBill_)}</Text>
-          </TouchableOpacity>
-        )}
+            <Text style={[styles.bigtitle]}>{FormattedFacturaNumber(item._NumberOfBill_)}</Text>
+            <Text style={styles.parrafo}>{item.ClientName.name}</Text>
+            <Text style={styles.parrafo}>{item.ClientName.RTN}</Text>
+            <Text style={styles.parrafo}>{}</Text>
+          </TouchableOpacity>)
+        }
       />
     </View>
   );

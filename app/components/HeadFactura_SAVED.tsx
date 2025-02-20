@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Company, FacturaNumber } from "../../app/storage/company";
 import { userBillName } from "../../app/storage/headCouting";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Alert } from "react-native";
 import { styles } from "../../assets/styles/styles";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
 import { GenerateFacturaNumber } from "../../app/utils/FacturasFuncs";
@@ -10,40 +10,46 @@ interface props {
     _OnCancel_: () => void;
     _OnGenerateFactura_ : () => void;
     _OnSaveFacturaNummber_ : ( value : FacturaNumber) => void;
-    empresa: Company | undefined;
+    empresa: Company | null;
     Usuario: userBillName | undefined;
 }
 
 export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, _OnGenerateFactura_, _OnSaveFacturaNummber_,empresa, Usuario }) => {
     const [Empresa, setEmpresa] = useState<Company>();
     const [usuario, setUsuario] = useState<userBillName>();
-    const [FactNumber, SetFactnumber] = useState<FacturaNumber | null>();
-
-    const FActuNum_ = async () => {
-        empresa && typeof empresa === 'object' && SetFactnumber(await GenerateFacturaNumber(empresa.id));
-    }
+    const [FactNumber, SetFactnumber] = useState<FacturaNumber | null>(null);
 
     const UpdatingValues = async () => {
-        empresa && typeof empresa === 'object' && setEmpresa(empresa);
+        if (!empresa) return;
+    
+        setEmpresa(empresa);
         setUsuario(Usuario);
-        await FActuNum_();
-        FactNumber ? _OnSaveFacturaNummber_(FactNumber) : null;
-    }
-
+    
+        const newFactNumber = await GenerateFacturaNumber(empresa.id);
+        if (newFactNumber) {
+            SetFactnumber(newFactNumber);
+            _OnSaveFacturaNummber_(newFactNumber);
+        } else {
+            Alert.alert('Error', 'Error al generar la factura');
+        }
+    };
     const FormattedFacturaNumber = () => {
-        return FactNumber?.FirstNumbers.toString() + '-'
-            + FactNumber?.SeconNumbers.toString() + '-'
-            + FactNumber?.thirdNumbers.toString() + '-'
-            + FactNumber?.LastNumbers.toString()
-    }
+        if (!FactNumber) return "Factura no generada";
+        return `${FactNumber.FirstNumbers}-${FactNumber.SeconNumbers}-${FactNumber.thirdNumbers}-${FactNumber.LastNumbers}`;
+    };
+    
 
     useEffect(() => {
-        UpdatingValues();
-    }, [empresa, Usuario])
+        const fetchData = async () => {
+            await UpdatingValues();
+        };
+        fetchData();
+    }, [empresa, Usuario]);
+    
 
     return (
-        <View style={[styles.card, { borderWidth: 1, borderColor: "grey", padding: 10 }]}>
-            <View style={[styles.rowContainer]}>
+        <View style={[styles.card, { borderWidth: 1, borderColor: "grey", padding: 10, backgroundColor : 'white' }]}>
+            <View style={[styles.rowContainer, { elevation : 0}]}>
                 <Button title="CANCELAR" onPress={_OnCancel_} color={"red"} />
                 <Button title="GENERAR FACTURA" onPress={_OnGenerateFactura_} color={"blue"} />
             </View>
@@ -52,7 +58,7 @@ export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, _OnGenerateFactu
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 {/* 📌 Columna 1 - Información de la Empresa */}
                 <View style={{ flex: 1, paddingRight: 10 }}>
-                    <Text style={[styles.bigtitle, { fontWeight: "bold" }]}>Factura: {FormattedFacturaNumber()}</Text>
+                    <Text style={[styles.bigtitle, { fontWeight: "bold", color : typeof FactNumber!= null ? 'green' :'red' }]}>Factura: {FormattedFacturaNumber()}</Text>
                     <Text style={[styles.bigtitle, { fontWeight: "bold" }]}>{Empresa?.nombre}</Text>
                     <Text style={[styles.title, { fontWeight: "bold" }]}>Fecha: {getFormattedDate()}</Text>
                     <Text style={styles.title}>Dirección: {Empresa?.direccion}</Text>
