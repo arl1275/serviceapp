@@ -8,7 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 interface props {
     addCoutingLine: (value: CoutingDatail) => void;
     DeleteCoutingLine: (value: number) => void;
-    editCoutingLine: (_id_: number, value: CoutingDatail) => void;
+    //editCoutingLine: (_id_: number, value: CoutingDatail) => void;
     data: CoutingDatail[] | null;
     id_head_Couting: number;
     id_head_sheet: number | null;
@@ -17,7 +17,7 @@ interface props {
 export const RegisterCountingLine: React.FC<props> = ({
     addCoutingLine,
     DeleteCoutingLine,
-    editCoutingLine,
+    //editCoutingLine,
     data,
     id_head_Couting,
     id_head_sheet,

@@ -1,4 +1,4 @@
-import { HeadCouting, addCoutingLine, getHCouting, GetFacturasByCompany } from "../../app/storage/headCouting";
+import { HeadCouting, addHeadCouting, getHCouting, GetFacturasByCompany } from "../../app/storage/headCouting";
 import { Company, FacturaNumber, getCompanies, filterCompanyByID } from "../../app/storage/company";
 import { Alert } from "react-native";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
@@ -32,7 +32,9 @@ const ValidateDate = (Empresa : Company) => {
 
 
 const nextFactura = (AllFacturas: HeadCouting[], Empresa: Company) => {
-    const LastFacuta = AllFacturas[AllFacturas.length - 1];
+    const EmpresaFacturas : HeadCouting[] = AllFacturas.filter(( item : HeadCouting)=> item.id_Company_Related === Empresa.id) 
+    const LastFacuta = EmpresaFacturas.sort((a, b)=> a.id - b.id)[EmpresaFacturas.length -1];
+
     const NewLastFacturaNumber: FacturaNumber = {
         id: Date.now(),
         FirstNumbers: Empresa.correlativo.FirstNumbers,
@@ -40,7 +42,7 @@ const nextFactura = (AllFacturas: HeadCouting[], Empresa: Company) => {
         thirdNumbers: Empresa.correlativo.thirdNumbers,
         LastNumbers: Empresa.correlativo.LastNumbers
     };
-    if (LastFacuta._NumberOfBill_.LastNumbers < Empresa.rango) {
+    if (LastFacuta._NumberOfBill_.LastNumbers < (Empresa.correlativo.thirdNumbers + Empresa.rango)) {
         NewLastFacturaNumber.LastNumbers = LastFacuta._NumberOfBill_.LastNumbers + 1;
     } else {
         Alert.alert('ERROR', 'No hay Correlativos disponibles para una factura nueva.');

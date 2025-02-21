@@ -9,6 +9,9 @@ import { Company, FacturaNumber } from "../../app/storage/company";
 import { HeadFacturaConfig } from "../../app/components/factura_head";
 import { SavedUSerFactura } from "../../app/components/HeadFactura_SAVED";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
+// navegation
+import { RouteProp } from "@react-navigation/native";
+import { FacturasParamList } from "../../app/_layout";
 
 export const CrearFacturaSubPage = () => {
     //-- Detail of the head of the bill
@@ -32,7 +35,7 @@ export const CrearFacturaSubPage = () => {
 
     const GenerateFactura = async () => {
         if (!FacturaNumber_ || !DetailUser || !DetailComp) {
-            Alert.alert("Error", "Faltan datos para generar la factura.");
+            Alert.alert("Error", "Faltan datos para generar la factura. Falta Empresa, Cliente");
             return;
         }
 
@@ -55,7 +58,7 @@ export const CrearFacturaSubPage = () => {
 
         setHeadCount(newHeadCouting);
         await addHeadCouting(newHeadCouting);
-        await GenerateFactura();
+        //await GenerateFactura();
     };
 
     return (
@@ -66,15 +69,25 @@ export const CrearFacturaSubPage = () => {
                     <View style={[styles.card, { borderWidth: 1, borderColor: 'grey', backgroundColor: 'white' }]}>
                         <HeadFacturaConfig onSaveValue={_onSaveUserBill} onSaveCompany={_onSaveCompany} OnSaveFactura={SaveHeadFacturaFinish} />
                     </View>
-                    :
-                    <SavedUSerFactura
-                        _OnCancel_={CancelFActura}
-                        empresa={DetailComp}
-                        Usuario={DetailUser}
-                        _OnGenerateFactura_={GenerateFactura}
-                        _OnSaveFacturaNummber_={_onSaveFacturaNumberFen_}
-                    />
-            }
+                    : (
+                        <View>
+                            <SavedUSerFactura
+                                _OnCancel_={CancelFActura}
+                                empresa={DetailComp}
+                                Usuario={DetailUser}
+                                _OnGenerateFactura_={GenerateFactura}
+                                _OnSaveFacturaNummber_={_onSaveFacturaNumberFen_}
+                            />
+                            <RegisterCountingLine
+                                addCoutingLine={AddCountingLineDet}
+                                DeleteCoutingLine={DeleteCoutingLineDet }
+                                //editCoutingLine={ }
+                                data={CoutingDetail}
+                                id_head_Couting={HeadCount ? HeadCount.id : 0}
+                                id_head_sheet={null}
+                            />
+                        </View>
+                    )}
         </View>
     );
 };
