@@ -75,3 +75,16 @@ export const filterCoutingByID = async (searchTerm: number | null): Promise<Cout
     return [];
   }
 };
+
+export const filterLinesByHeadFactura = async (searchTerm: number): Promise<CoutingDatail[]> => {
+  try {
+    const CoutingDatails = await getCouting();
+    const filteredCoutingDatails = CoutingDatails.filter((item) =>
+      item.id_Head_Couting = searchTerm// Coincidencia parcial, ignorando mayúsculas/minúsculas
+    );
+    return filteredCoutingDatails;
+  } catch (error) {
+    console.error('Error al filtrar los registros:', error);
+    return [];
+  }
+};

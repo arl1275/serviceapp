@@ -12,6 +12,8 @@ import { EditCompanySubPage } from "./subpages/editCompanySubpage";
 import { Company } from "./storage/company";
 import { HeadSheet } from "./storage/headservice";
 import { EditClientSubpage } from "./subpages/editClientes";
+import { HeadCouting } from "./storage/headCouting";
+import { FacturaDetail } from "./subpages/DetailFactura";
 
 export type RootStackParamList = {
   home: undefined;
@@ -31,6 +33,7 @@ export type DetailStackParamList = {
 export type FacturasParamList = {
   homeFactura: undefined;
   CrearFActura: undefined;
+  DetailFactura : {_valueFactura_ : HeadCouting};
   details: { itemId: number };
 };
 
@@ -183,6 +186,18 @@ export function FacturasLayout() {
         component={CrearFacturaSubPage}
         options={{
           title: "CREAR FACTURA",
+          headerShown: true,
+          headerPressColor: "blue",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "grey",
+          headerTitleStyle: { fontSize: 17 },
+        }}
+      />
+      <FacturasStack.Screen
+        name="DetailFactura"
+        component={FacturaDetail}
+        options={{
+          title: "FACTURA",
           headerShown: true,
           headerPressColor: "blue",
           headerStyle: { backgroundColor: "white" },

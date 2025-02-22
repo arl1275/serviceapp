@@ -12,8 +12,14 @@ import { getFormattedDate } from "../../app/modals/crear_service_detail";
 // navegation
 import { RouteProp } from "@react-navigation/native";
 import { FacturasParamList } from "../../app/_layout";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+
+type HomeScreenNavigationProp = StackNavigationProp<FacturasParamList, "homeFactura">;
 
 export const CrearFacturaSubPage = () => {
+    //-- navigation
+    const navigation = useNavigation<HomeScreenNavigationProp>();
     //-- Detail of the head of the bill
     const [HeadCount, setHeadCount] = useState<HeadCouting | null>(null);
     const [CoutingDetail, setCoutingDetail] = useState<CoutingDatail[]>([]);
@@ -34,10 +40,12 @@ export const CrearFacturaSubPage = () => {
     const DeleteCoutingLineDet = (id: number) => { setCoutingDetail(prev => prev.filter((item) => item.id !== id)) };
 
     const GenerateFactura = async () => {
-        if (!FacturaNumber_ || !DetailUser || !DetailComp) {
+        if (!FacturaNumber_ || !DetailUser || !DetailComp || CoutingDetail.length === 0) {
             Alert.alert("Error", "Faltan datos para generar la factura. Falta Empresa, Cliente");
             return;
         }
+
+        CoutingDetail.map(async (item : CoutingDatail) => await addCoutingLineDetail(item)) 
 
         const newHeadCouting: HeadCouting = {
             id: Date.now(),
@@ -59,6 +67,7 @@ export const CrearFacturaSubPage = () => {
         setHeadCount(newHeadCouting);
         await addHeadCouting(newHeadCouting);
         //await GenerateFactura();
+        navigation.navigate('homeFactura')
     };
 
     return (
