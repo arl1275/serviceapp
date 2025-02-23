@@ -97,7 +97,7 @@ export const CrearFacturaSubPage = () => {
         }
 
         await addHeadCouting(HeadCount);
-        //await GenerateFactura();
+        CoutingDetail.map( async (item)=>{ await addCoutingLineDetail(item)});
         navigation.navigate('homeFactura')
     };
 
@@ -131,7 +131,7 @@ export const CrearFacturaSubPage = () => {
                                 DeleteCoutingLine={DeleteCoutingLineDet}
                                 //editCoutingLine={ }
                                 data={CoutingDetail}
-                                id_head_Couting={HeadCount ? HeadCount.id : 0}
+                                id_head_Couting={HeadCount}
                                 id_head_sheet={null}
                             />
                         </View>

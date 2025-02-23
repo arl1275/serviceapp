@@ -13,7 +13,7 @@ import { View, Text, Alert, FlatList } from "react-native";
 import { useState, useEffect } from "react";
 import { Company, filterCompanyByID, FacturaNumber } from "../../app/storage/company";
 import { HeadCouting, filterHeadCoutingBytitle } from "../../app/storage/headCouting";
-import { CoutingDatail, filterLinesByHeadFactura } from "../../app/storage/couting";
+import { CoutingDatail, filterLinesByHeadFactura, getCouting } from "../../app/storage/couting";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
 
 
@@ -61,9 +61,7 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
             </View>
 
             <View style={{ flexDirection: "row", justifyContent: "space-between", margin: 10 }}>
-                {/* 📌 Columna 1 - Información de la Empresa */}
                 <View style={{ flex: 1, paddingRight: 10 }}>
-
                     <Text style={[styles.title, { fontWeight: "bold" }]}>Fecha: {getFormattedDate()}</Text>
                     <Text style={styles.title}>Dirección: {Empresa?.direccion}</Text>
                     <Text style={styles.title}>Teléfono: {Empresa?.contacto}</Text>
@@ -71,7 +69,6 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
                     <Text style={styles.title}>RTN: {Empresa?.RTN}</Text>
                 </View>
 
-                {/* 📌 Columna 2 - Información del Cliente */}
                 <View style={{ flex: 1, paddingLeft: 10 }}>
                     <Text style={styles.title}>Correo: {Empresa?.correo}</Text>
                     <Text style={styles.title}>CAI: {Empresa?.CAI}</Text>
@@ -80,17 +77,18 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
                     <Text style={styles.title}>RTN: {HeadFactura?.ClientName.RTN}</Text>
                 </View>
             </View>
-            <View style={{borderBottomWidth : 1, borderBottomColor : 'grey', width : '90%', alignSelf : 'center'}}/>
+            <View style={{borderBottomWidth : 1, borderBottomColor : 'grey', width : '95%', alignSelf : 'center'}}/>
             
             <FlatList
                 data={FacturaDetail}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={[styles.rowContainer, { alignContent: 'space-between', margin: 5, elevation : 0, backgroundColor : ''}]}>
+                    <View style={[styles.rowContainer, { alignContent: 'space-between', margin: 10, alignItems : 'center', elevation : 0, backgroundColor : ''}]}>
                         <Text style={{ width: '50%' }}>{item.detail}</Text>
                         <Text style={{ width: '10%' }}>{item.cantidad}</Text>
                         <Text style={{ width: '10%' }}>{item.descuento}</Text>
                         <Text style={{ width: '10%' }}>{item.price}</Text>
+                        <Text style={{ width: '10%' }}>{item.id_Head_Couting}</Text>
                     </View>
                 )}
             />

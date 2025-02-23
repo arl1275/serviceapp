@@ -43,10 +43,7 @@ export const FacturasPage = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View>
-        <Button
-          title="Crear Factura"
-          onPress={() => _crearFactura_()}
-        />
+        <Button title="Crear Factura" onPress={() => _crearFactura_()}/>
       </View>
       <FlatList
         data={data}
@@ -57,7 +54,7 @@ export const FacturasPage = () => {
             <Text style={[styles.bigtitle]}>{FormattedFacturaNumber(item._NumberOfBill_)}</Text>
             <Text style={styles.parrafo}>{item.ClientName.name}</Text>
             <Text style={styles.parrafo}>{item.ClientName.RTN}</Text>
-            <Text style={styles.parrafo}>{}</Text>
+            <Text style={styles.parrafo}>{item.id}</Text>
           </TouchableOpacity>)
         }
       />

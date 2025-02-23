@@ -4,13 +4,14 @@ import { CoutingDatail } from "../../app/storage/couting";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
 import { styles } from "../../assets/styles/styles";
 import { Ionicons } from "@expo/vector-icons";
+import { HeadCouting } from "../../app/storage/headCouting";
 
 interface props {
     addCoutingLine: (value: CoutingDatail) => void;
     DeleteCoutingLine: (value: number) => void;
     //editCoutingLine: (_id_: number, value: CoutingDatail) => void;
     data: CoutingDatail[] | null;
-    id_head_Couting: number;
+    id_head_Couting: HeadCouting | null;
     id_head_sheet: number | null;
 }
 
@@ -25,7 +26,7 @@ export const RegisterCountingLine: React.FC<props> = ({
     const [CoutingLine, setCoutingLine] = useState<CoutingDatail>({
         id: Date.now(),
         id_service_sheet: null,
-        id_Head_Couting: id_head_Couting,
+        id_Head_Couting: id_head_Couting ? id_head_Couting.id : 0,
         detail: "",
         cantidad: 1,
         descuento: 0,
@@ -99,7 +100,6 @@ export const RegisterCountingLine: React.FC<props> = ({
                     <TextInput placeholder="DESCUENTO" keyboardType="numeric" onChangeText={(e) => updateVAlue("descuento", Number(e) || 0)} style={[styles.textbox_edit, { width: "20%" }]} />
                     <TextInput placeholder="PRECIO" keyboardType="numeric" onChangeText={(e) => updateVAlue("price", Number(e) || 1)} style={[styles.textbox_edit, { width: "20%" }]} />
                     <View style={[{ width : '10%'}]}><Button title="Agregar" onPress={Add} /></View>
-                    
                 </View>
             )}
 
