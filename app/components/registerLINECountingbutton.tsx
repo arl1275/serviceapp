@@ -25,7 +25,7 @@ export const RegisterCountingLine: React.FC<props> = ({
     const [CoutingLine, setCoutingLine] = useState<CoutingDatail>({
         id: Date.now(),
         id_service_sheet: null,
-        id_Head_Couting: 0,
+        id_Head_Couting: id_head_Couting,
         detail: "",
         cantidad: 1,
         descuento: 0,
@@ -41,7 +41,6 @@ export const RegisterCountingLine: React.FC<props> = ({
             ...prev,
             id: Date.now(),
             id_service_sheet: id_head_sheet ? id_head_sheet : 0,
-            id_Head_Couting: id_head_Couting,
             _date_: getFormattedDate(),
         }));
 

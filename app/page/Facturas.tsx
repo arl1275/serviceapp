@@ -38,7 +38,7 @@ export const FacturasPage = () => {
       + item?.SeconNumbers.toString() + '-'
       + item?.thirdNumbers.toString() + '-'
       + item?.LastNumbers.toString()
-  }
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -52,7 +52,7 @@ export const FacturasPage = () => {
         data={data}
         keyExtractor={(item: HeadCouting) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.sheet} >
+          <TouchableOpacity style={styles.sheet} onPress={()=> navigation.navigate("DetailFactura", { _valueFactura_: item })}>
             <Text style={styles.parrafo}>{item._date_}</Text>
             <Text style={[styles.bigtitle]}>{FormattedFacturaNumber(item._NumberOfBill_)}</Text>
             <Text style={styles.parrafo}>{item.ClientName.name}</Text>

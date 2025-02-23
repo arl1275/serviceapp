@@ -1,4 +1,4 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ActivityIndicator } from "react-native";
 import { styles } from "../../assets/styles/styles";
 import { RegisterCountingLine } from "../../app/components/registerLINECountingbutton";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import { RouteProp } from "@react-navigation/native";
 import { FacturasParamList } from "../../app/_layout";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
+import { GenerateFacturaNumber } from "../../app/utils/FacturasFuncs";
 
 type HomeScreenNavigationProp = StackNavigationProp<FacturasParamList, "homeFactura">;
 
@@ -25,31 +26,43 @@ export const CrearFacturaSubPage = () => {
     const [CoutingDetail, setCoutingDetail] = useState<CoutingDatail[]>([]);
     const [FacturaNumber_, setFactnumber_] = useState<FacturaNumber | null>(null);
     const [savedHead, setSavedHead] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
 
     //-- Detail bill head 
     const [DetailUser, setDetailUser] = useState<userBillName>({ name: 'N/A', RTN: 'N/A' });
     const [DetailComp, setDetailComp] = useState<Company | null>(null);
 
-    const SaveHeadFacturaFinish = () => { setSavedHead(!savedHead) };
-    const _onSaveUserBill = (NewValue_: userBillName) => { setDetailUser(NewValue_) };
-    const _onSaveCompany = (NewValue: Company) => { setDetailComp(NewValue) };
-    const _onSaveFacturaNumberFen_ = (value: FacturaNumber) => { setFactnumber_(value) };
-    const CancelFActura = () => { setSavedHead(false) };
-
-    const AddCountingLineDet = (value: CoutingDatail) => { setCoutingDetail(prev => [...prev, value]) };
-    const DeleteCoutingLineDet = (id: number) => { setCoutingDetail(prev => prev.filter((item) => item.id !== id)) };
-
-    const GenerateFactura = async () => {
-        if (!FacturaNumber_ || !DetailUser || !DetailComp || CoutingDetail.length === 0) {
-            Alert.alert("Error", "Faltan datos para generar la factura. Falta Empresa, Cliente");
+    const SaveHeadFacturaFinish = async () => {
+        setLoading(true);
+        
+        if (!DetailComp) {
+            Alert.alert('ERROR', 'No se puede generar la factura sin una empresa.');
+            setLoading(false);
             return;
         }
-
-        CoutingDetail.map(async (item : CoutingDatail) => await addCoutingLineDetail(item)) 
-
+    
+        const newFactNumber = await GenerateFacturaNumber(DetailComp.id);
+        if (!newFactNumber) {
+            Alert.alert('Error', 'Error al generar la factura.');
+            setLoading(false);
+            return;
+        }
+    
+        setFactnumber_(newFactNumber);
+    
+        if (!DetailUser || !DetailComp) {
+            Alert.alert("Error de generación",
+                `Faltan datos para generar la factura.
+             Numero de Factura: ${newFactNumber.LastNumbers}
+             Usuario: ${DetailUser?.name} - ${DetailUser?.RTN}
+             Empresa: ${DetailComp?.nombre} - ${DetailComp?.RTN}`);
+            setLoading(false);
+            return;
+        }
+    
         const newHeadCouting: HeadCouting = {
             id: Date.now(),
-            _NumberOfBill_: FacturaNumber_,
+            _NumberOfBill_: newFactNumber,
             ClientName: DetailUser,
             _date_: getFormattedDate(),
             isClosed: false,
@@ -63,9 +76,27 @@ export const CrearFacturaSubPage = () => {
             isCanceled: false,
             id_Company_Related: DetailComp.id
         };
-
+    
         setHeadCount(newHeadCouting);
-        await addHeadCouting(newHeadCouting);
+        setSavedHead(true);
+        setLoading(false);
+    };
+    
+
+    const _onSaveUserBill = (NewValue_: userBillName) => { setDetailUser(NewValue_) };
+    const _onSaveCompany = (NewValue: Company) => { setDetailComp(NewValue) };
+    const CancelFActura = () => { setSavedHead(false) };
+
+    const AddCountingLineDet = (value: CoutingDatail) => { setCoutingDetail(prev => [...prev, value]) };
+    const DeleteCoutingLineDet = (id: number) => { setCoutingDetail(prev => prev.filter((item) => item.id !== id)) };
+
+    const GenerateFactura = async () => {
+        if (!FacturaNumber_ || !HeadCount || !DetailUser || !DetailComp || CoutingDetail.length === 0) {
+            Alert.alert("Error", "Faltan datos para generar la factura. Falta Empresa, Cliente");
+            return;
+        }
+
+        await addHeadCouting(HeadCount);
         //await GenerateFactura();
         navigation.navigate('homeFactura')
     };
@@ -74,10 +105,18 @@ export const CrearFacturaSubPage = () => {
         <View style={{ flex: 1, alignItems: 'center' }}>
             <Text style={[styles.bigtitle, { margin: 7 }]}>{savedHead ? "FACTURA" : "DETALLE FACTURA"}</Text>
             {
-                !savedHead ?
+                !savedHead ?(
                     <View style={[styles.card, { borderWidth: 1, borderColor: 'grey', backgroundColor: 'white' }]}>
-                        <HeadFacturaConfig onSaveValue={_onSaveUserBill} onSaveCompany={_onSaveCompany} OnSaveFactura={SaveHeadFacturaFinish} />
+                        <HeadFacturaConfig
+                            onSaveValue={_onSaveUserBill}
+                            onSaveCompany={_onSaveCompany}
+                            OnSaveFactura={SaveHeadFacturaFinish}
+                        />
+                        {
+                            loading && <ActivityIndicator size="small" color="#0000ff"/>
+                        }
                     </View>
+                    )
                     : (
                         <View>
                             <SavedUSerFactura
@@ -85,11 +124,11 @@ export const CrearFacturaSubPage = () => {
                                 empresa={DetailComp}
                                 Usuario={DetailUser}
                                 _OnGenerateFactura_={GenerateFactura}
-                                _OnSaveFacturaNummber_={_onSaveFacturaNumberFen_}
+                                HEadFact={HeadCount && HeadCount}
                             />
                             <RegisterCountingLine
                                 addCoutingLine={AddCountingLineDet}
-                                DeleteCoutingLine={DeleteCoutingLineDet }
+                                DeleteCoutingLine={DeleteCoutingLineDet}
                                 //editCoutingLine={ }
                                 data={CoutingDetail}
                                 id_head_Couting={HeadCount ? HeadCount.id : 0}

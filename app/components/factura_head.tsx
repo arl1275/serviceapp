@@ -8,12 +8,13 @@ import { DropboxClients } from "./dropboxclients";
 import { HeadSheet, filterHeadSheetsByTitle } from "../../app/storage/headservice";
 
 interface props {
-    OnSaveFactura: () => void;
+    OnSaveFactura: () => Promise<void>;
+    //is_solved_Head_count: ()=> boolean;
     onSaveValue: (NewValue: userBillName) => void;
     onSaveCompany: (NewValue: Company) => void;
 }
 
-export const HeadFacturaConfig: React.FC<props> = ({ onSaveCompany, onSaveValue, OnSaveFactura }) => {
+export const HeadFacturaConfig: React.FC<props> = ({ onSaveCompany, onSaveValue, OnSaveFactura}) => {
     const [IsClientF, setIsClientF] = useState<boolean>(false);
     const [company, setCompany] = useState<string>('')
     const [NameFact, setNameFact] = useState<userBillName>({ name: 'Cliente Final', RTN: '000-00-00-000000' });
@@ -33,10 +34,14 @@ export const HeadFacturaConfig: React.FC<props> = ({ onSaveCompany, onSaveValue,
 
     const FinishDetailHeadFactura = async () => {
         const compania: Company[] = await filterCompanyByName(company);
-        const _UserBill_: userBillName = ({ name: NameFact.name, RTN: NameFact.RTN });
-        onSaveCompany(compania[0]);
-        onSaveValue(_UserBill_);
-        OnSaveFactura();
+        if(compania){
+            const _UserBill_: userBillName = ({ name: NameFact.name, RTN: NameFact.RTN });
+            onSaveCompany(compania[0]);
+            onSaveValue(_UserBill_);
+            await OnSaveFactura();
+        }else{
+            alert('No se encontró la compañía');
+        }
     }
 
     return (

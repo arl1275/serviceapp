@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define la interfaz de CoutingDatail
+// Define la interfaz de CoutingDatail -- estas son las lineas de la factura
 export interface CoutingDatail {
   id: number; // ID único generado automáticamente
   id_service_sheet : number | null;
