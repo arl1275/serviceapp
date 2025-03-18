@@ -8,10 +8,10 @@ import { GenerateFacturaNumber } from "../../app/utils/FacturasFuncs";
 
 interface props {
     _OnCancel_: () => void;
-    _OnGenerateFactura_ : () => void;
-    empresa: Company | null;
-    Usuario: userBillName | undefined;
-    HEadFact : HeadCouting | null;
+    _OnGenerateFactura_ : () => Promise<void>; // esto sirve para generar una factura
+    empresa: Company | null;          // esto es para traer la empresa desde la subpagina
+    Usuario: userBillName | undefined;// esto es para traer el usuario desde la subpagina
+    HEadFact : HeadCouting | null;    // la cabeza de la factura
 }
 
 export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, _OnGenerateFactura_,empresa, Usuario, HEadFact }) => {
@@ -37,13 +37,12 @@ export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, _OnGenerateFactu
         };
         fetchData();
     }, [empresa, Usuario]);
-    
 
     return (
         <View style={[styles.card, { borderWidth: 1, borderColor: "grey", padding: 10, backgroundColor : 'white' }]}>
-            <View style={[styles.rowContainer, { elevation : 0}]}>
+            <View style={[styles.rowContainer, { elevation : 0}]}>s
                 <Button title="CANCELAR" onPress={_OnCancel_} color={"red"} />
-                <Button title="GENERAR FACTURA" onPress={_OnGenerateFactura_} color={"blue"} />
+                <Button title="GENERAR FACTURA" onPress={async()=> await _OnGenerateFactura_()} color={"blue"} />
             </View>
 
 

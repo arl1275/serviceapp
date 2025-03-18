@@ -16,8 +16,8 @@ export const FacturasPage = () => {
 
   const UpdateList = useCallback(async () => {
     try {
-      const _data_ = await getHCouting();
-      setData(_data_);
+      const _data_ : HeadCouting[] = await getHCouting();
+      setData(_data_.sort((a, b) => b._NumberOfBill_.thirdNumbers - a._NumberOfBill_.thirdNumbers));
     } catch (error) {
       console.error("Error al cargar los registros:", error);
     }
