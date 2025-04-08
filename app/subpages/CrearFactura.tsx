@@ -32,6 +32,13 @@ export const CrearFacturaSubPage = () => {
     const [DetailUser, setDetailUser] = useState<userBillName>({ name: 'N/A', RTN: 'N/A' });
     const [DetailComp, setDetailComp] = useState<Company | null>(null);
 
+    const _ClearAll_ = () =>{
+        setHeadCount(null);
+        setCoutingDetail([]);
+        setSavedHead(false);
+        setFactnumber_(null);
+    }
+
     const SaveHeadFacturaFinish = async () => {
         setLoading(true);
         
@@ -98,7 +105,8 @@ export const CrearFacturaSubPage = () => {
 
         await addHeadCouting(HeadCount);
         CoutingDetail.map( async (item)=>{ await addCoutingLineDetail(item)});
-        navigation.navigate('homeFactura')
+        _ClearAll_();
+        navigation.navigate('homeFactura');
     };
 
     return (
@@ -129,9 +137,8 @@ export const CrearFacturaSubPage = () => {
                             <RegisterCountingLine
                                 addCoutingLine={AddCountingLineDet}
                                 DeleteCoutingLine={DeleteCoutingLineDet}
-                                //editCoutingLine={ }
                                 data={CoutingDetail}
-                                id_head_Couting={HeadCount}
+                                id_head_Couting={HeadCount && HeadCount}
                                 id_head_sheet={null}
                             />
                         </View>

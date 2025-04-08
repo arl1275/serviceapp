@@ -39,14 +39,32 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
     }
 
     const FullFillFactura = async () => {
-        !_valueFactura_ ? Alert.alert('No se obtuvo encabezado de Factura') : setHeadFactura(_valueFactura_);
-        setEmpresa(await GetCompania());
-        setFacturaDetail(await GetLinesFactura());
-    }
-
+        try {
+            if (!_valueFactura_) {
+                Alert.alert('No se obtuvo encabezado de Factura');
+                return;
+            }
+    
+            setHeadFactura(_valueFactura_);
+    
+            const [empresa, factDetail] = await Promise.all([
+                GetCompania(),
+                GetLinesFactura()
+            ]);
+    
+            setEmpresa(empresa);
+            setFacturaDetail(factDetail);
+    
+            console.log('data values :', factDetail);
+        } catch (error) {
+            console.error('Error al cargar factura:', error);
+            Alert.alert('Error al cargar la información de la factura');
+        }
+    };
+    
     useEffect(() => {
         FullFillFactura();
-    }, [_valueFactura_]);
+    }, [_valueFactura_.id]);     
 
     const FormattedFacturaNumber = (_value_: FacturaNumber | undefined) => {
         if (!_value_) return "Factura no generada";
@@ -80,7 +98,7 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
             <View style={{borderBottomWidth : 1, borderBottomColor : 'grey', width : '95%', alignSelf : 'center'}}/>
             
             <FlatList
-                data={FacturaDetail}
+                data={FacturaDetail ?? []}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={[styles.rowContainer, { alignContent: 'space-between', margin: 10, alignItems : 'center', elevation : 0, backgroundColor : ''}]}>
