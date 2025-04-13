@@ -82,7 +82,7 @@ export const filterLinesByHeadFactura = async (searchTerm: number): Promise<Cout
     const filteredCoutingDatails = CoutingDatails.filter((item: CoutingDatail) => {
       return item.id_Head_Couting === searchTerm;
     });    
-    console.log('RESULTADO: ', filteredCoutingDatails);
+    //console.log('RESULTADO: ', filteredCoutingDatails);
     return filteredCoutingDatails;
   } catch (error) {
     console.error('Error al filtrar los registros:', error);

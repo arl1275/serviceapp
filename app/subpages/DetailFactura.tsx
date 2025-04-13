@@ -148,12 +148,12 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
           styles.rowContainer,
           {
             alignContent: "space-between",
-            padding : 10,
+            padding: 10,
             alignItems: "center",
             elevation: 0,
-            borderBottomColor : 'grey',
-            borderBottomWidth : 1,
-            alignSelf : 'center'
+            borderBottomColor: "grey",
+            borderBottomWidth: 1,
+            alignSelf: "center",
           },
         ]}
       >
@@ -161,9 +161,6 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
         <Text style={{ width: "10%" }}>Cantidad</Text>
         <Text style={{ width: "10%" }}>Descuento</Text>
         <Text style={{ width: "10%" }}>Precio</Text>
-        {
-          //<Text style={{ width: "10%" }}>{item.id_Head_Couting}</Text>*
-        }
       </View>
 
       <FlatList
@@ -180,7 +177,9 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
                 alignItems: "center",
                 elevation: 0,
                 backgroundColor: "",
-                alignSelf : 'center'
+                alignSelf: "center",
+                borderBottomWidth: 1,
+                borderBottomColor: "#d1d1d1",
               },
             ]}
           >
@@ -188,12 +187,18 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
             <Text style={{ width: "10%" }}>{item.cantidad}</Text>
             <Text style={{ width: "10%" }}>{item.descuento}</Text>
             <Text style={{ width: "10%" }}>{item.price}</Text>
-            {
-              //<Text style={{ width: "10%" }}>{item.id_Head_Couting}</Text>*
-            }
           </View>
         )}
       />
+
+      <View style={[]}>
+          <View style={[ ]}>
+            <Text>Total:{FacturaDetail.reduce((acc, item ) => acc + item.price, 0)}</Text>
+            <Text>impuesto:{FacturaDetail.reduce((acc, item ) => acc + item.price, 0) * 0.15}</Text>
+            <Text>Sub-Total:{FacturaDetail.reduce((acc, item ) => acc + item.price, 0) * 0.85}</Text>
+          </View>
+          <View></View>
+      </View>
     </View>
   );
 };
