@@ -10,7 +10,7 @@ type FacturaDetailProps = {
 //-- others
 import { styles } from "../../assets/styles/styles";
 import { View, Text, Alert, FlatList } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, cloneElement } from "react";
 import {
   Company,
   filterCompanyByID,
@@ -191,13 +191,50 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
         )}
       />
 
-      <View style={[]}>
-          <View style={[ ]}>
-            <Text>Total:{FacturaDetail.reduce((acc, item ) => acc + item.price, 0)}</Text>
-            <Text>impuesto:{FacturaDetail.reduce((acc, item ) => acc + item.price, 0) * 0.15}</Text>
-            <Text>Sub-Total:{FacturaDetail.reduce((acc, item ) => acc + item.price, 0) * 0.85}</Text>
+      <View style={{ margin: 10 }}>
+        <View style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 5 }}>
+          {/* Encabezados */}
+          <View
+            style={{
+              flexDirection: "row",
+              backgroundColor: "#f0f0f0",
+              padding: 8,
+            }}
+          >
+            <Text style={{ flex: 1, fontWeight: "bold" }}>Concepto</Text>
+            <Text style={{ flex: 1, fontWeight: "bold", textAlign: "right" }}>
+              Valor (L)
+            </Text>
           </View>
-          <View></View>
+
+          {/* Valores */}
+          <View style={{ flexDirection: "row", padding: 8 }}>
+            <Text style={{ flex: 1 }}>Total</Text>
+            <Text style={{ flex: 1, textAlign: "right" }}>
+              {FacturaDetail.reduce((acc, item) => acc + item.price, 0).toFixed(
+                2
+              )}
+            </Text>
+          </View>
+
+          <View style={{ flexDirection: "row", padding: 8 }}>
+            <Text style={{ flex: 1 }}>Impuesto (15%)</Text>
+            <Text style={{ flex: 1, textAlign: "right" }}>
+              {(
+                FacturaDetail.reduce((acc, item) => acc + item.price, 0) * 0.15
+              ).toFixed(2)}
+            </Text>
+          </View>
+
+          <View style={{ flexDirection: "row", padding: 8 }}>
+            <Text style={{ flex: 1 }}>Sub-Total (85%)</Text>
+            <Text style={{ flex: 1, textAlign: "right" }}>
+              {(
+                FacturaDetail.reduce((acc, item) => acc + item.price, 0) * 0.85
+              ).toFixed(2)}
+            </Text>
+          </View>
+        </View>
       </View>
     </View>
   );

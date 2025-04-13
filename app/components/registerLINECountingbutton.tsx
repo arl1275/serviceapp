@@ -71,13 +71,13 @@ export const RegisterCountingLine: React.FC<props> = ({
   };
 
   return (
-    <View>
-      <View style={{ margin: 5 }}>
-        <Button title="CREAR LINEA" onPress={() => setAddline(!addLine)} />
+    <View style={[{padding : 10}]}>
+      <View style={{ margin: 5}}>
+        <Button title="CREAR LINEA" onPress={() => setAddline(!addLine)}/>
       </View>
 
       {data && data.length > 0 && (
-        <View style={[styles.rowContainer,{ alignContent: "space-between", margin: 5 , padding : 10},]}>
+        <View style={[styles.rowContainer,{ alignContent: "space-between", margin: 0 , padding : 10},]}>
           <Text>Detalle</Text>
           <Text>Cantidad</Text>
           <Text>Descuento</Text>
@@ -89,7 +89,7 @@ export const RegisterCountingLine: React.FC<props> = ({
         <View
           style={[
             styles.rowContainer,
-            { padding: 3, margin: 5, width: "auto" },
+            { padding: 3, margin: 0, width: "auto" },
           ]}
         >
           <TextInput
