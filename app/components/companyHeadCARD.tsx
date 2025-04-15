@@ -18,9 +18,8 @@ export const CompanyHeadCard = ({ data }: CompanyProps) => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
   const FormatCorrelative = (value: FacturaNumber): string => {
-    // Filtra las claves para excluir "id" y concatena los valores restantes
     const formattedValue = Object.keys(value)
-      .filter((key) => key !== "id") // Excluye la clave "id"
+      .filter((key) => key !== "id") 
       .map((key) => value[key as keyof FacturaNumber])
       .join(" - ");
     return formattedValue;
@@ -96,7 +95,7 @@ export const CompanyHeadCard = ({ data }: CompanyProps) => {
             size={25}
             color="grey"
             style={{ margin: 15 }}
-            onPress={() => navigation.navigate("EditCopany", { _data_: companyValue })}
+            onPress={() => navigation.navigate("EditCopany", { _data_: data})}
           />
         </View>
 

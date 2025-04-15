@@ -40,7 +40,7 @@ export const SavedUSerFactura: React.FC<props> = ({ _OnCancel_, _OnGenerateFactu
 
     return (
         <View style={[styles.card, { borderWidth: 1, borderColor: "grey", padding: 10, backgroundColor : 'white' }]}>
-            <View style={[styles.rowContainer, { elevation : 0}]}>s
+            <View style={[styles.rowContainer, { elevation : 0}]}>
                 <Button title="CANCELAR" onPress={_OnCancel_} color={"red"} />
                 <Button title="GENERAR FACTURA" onPress={async()=> await _OnGenerateFactura_()} color={"blue"} />
             </View>

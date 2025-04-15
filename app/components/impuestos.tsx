@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { styles } from "../../assets/styles/styles";
-import { View, Text, TouchableOpacity, Button, TextInput, Alert, FlatList, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, Button, TextInput, Alert, FlatList } from "react-native";
 import { Company, impuesto } from "../../app/storage/company";
 
 type PropsCompany = {
@@ -33,20 +33,20 @@ export const ImpuestosComponent = ({ editablecompany, setEditableImpuestos }: Pr
         <View style={[styles.headsheet]}>
             <Text style={styles.title}>Impuestos</Text>
             <View>
-                <View style={[styles.rowContainer, { elevation : 0, borderWidth : 1, borderColor : '#eaeded'}]}>
-                    <View style={{width : '20%', marginLeft : 10, borderRadius : 10}}>
-                    <Button title="Crear" color={"blue"} onPress={_OnSaveImpuesto_}/>
+                <View style={[styles.rowContainer, { elevation: 0, borderWidth: 1, borderColor: '#eaeded' , padding : 2}]}>
+                    <View style={{ width: '20%', marginLeft: 10, borderRadius: 10, padding : 0, margin : 0}}>
+                        <Button title="Crear" color={"blue"} onPress={_OnSaveImpuesto_} />
                     </View>
-                    
-                    <TextInput style={{width : '20%', borderWidth : 1, borderColor : '#ebedef', margin : 10, borderRadius : 7}}
+
+                    <TextInput style={{ width: '20%', borderWidth: 1, borderColor: '#ebedef', padding: 5, borderRadius: 7 }}
                         placeholder="Nombre"
                         value={addImpuesto.nombre}
-                        onChangeText={(e: string) => {setNewAddImpuesto((prevImpuesto) => ({ ...prevImpuesto, nombre: e }));}}
+                        onChangeText={(e: string) => { setNewAddImpuesto((prevImpuesto) => ({ ...prevImpuesto, nombre: e })); }}
                     />
                     <TextInput
-                        placeholder="%"
+                        placeholder="Porcentaje %"
                         keyboardType="numeric"
-                        style={{width : '20%', borderWidth : 1, borderColor : '#ebedef', margin : 10, borderRadius : 7}}
+                        style={{ width: '20%', borderWidth: 1, borderColor: '#ebedef', padding: 5, borderRadius: 7 }}
                         value={addImpuesto.porcentaje ? addImpuesto.porcentaje.toString() : ""}
                         onChangeText={(e) => {
                             const porcentaje = parseInt(e, 10);
@@ -56,18 +56,16 @@ export const ImpuestosComponent = ({ editablecompany, setEditableImpuestos }: Pr
                         }}
                     />
                 </View>
-                <ScrollView style={{height : '20%'}}>
-                    <FlatList
-                        data={Impuestos}
-                        keyExtractor={(item: impuesto) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <View style={[styles.rowContainer, { justifyContent: "space-around" , padding : 10}]}>
-                                <Text>{item.nombre}</Text>
-                                <Text>{item.porcentaje.toString()}</Text>
-                            </View>
-                        )}
-                    />
-                </ScrollView>
+                <FlatList
+                    data={Impuestos}
+                    //keyExtractor={(index, item: impuesto) => item.id}
+                    renderItem={({ item }) => (
+                        <View style={[styles.rowContainer, { justifyContent: "space-around", padding: 10 }]}>
+                            <Text>{item.nombre}</Text>
+                            <Text>{item.porcentaje}</Text>
+                        </View>
+                    )}
+                />
             </View>
         </View>
     );

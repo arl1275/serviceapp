@@ -83,20 +83,20 @@ export const ModalCreateRegisterServiceSheet = ({ vis, closeModal, onUpdate}: Mo
             <Text style={[styles.bigtitle, {textAlign : 'center'}]}>CREAR REGISTRO NUEVO</Text>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', padding : 10 }}>
             <TextInput placeholder="Titulo" onChangeText={(e) => settitle(e)} />
           </View>
 
           <View onPointerEnter={_isActiveDropBox_}
-           style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5, padding : 0, height : 55}}>
+           style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5, padding : 10, height : 55}}>
             <DropboxClients selectedvalue={setCliente} isactive={_isactive}/>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%', margin : 5, padding : 10 }}>
             <TextInput placeholder="Cliente Detalle" onChangeText={(e) => setClienteDetalle(e)}/>
           </View>
 
-          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5 }}>
+          <View style={{ borderWidth : 1, borderColor : '#d6dbdf', borderRadius : 5, width : '100%',margin : 5, padding : 10 }}>
             <TextInput placeholder="Descripcion" onChangeText={(e) => setDescription(e)}/>
           </View>
 

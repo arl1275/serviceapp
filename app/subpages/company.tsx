@@ -4,7 +4,7 @@ import { Company, getCompanies } from "../storage/company"
 import { useCallback, useEffect, useState } from "react"
 import { styles } from "../../assets/styles/styles"
 import { ModalcreateCompany } from "../../app/modals/crear_compania"
-import { Headsheetcard } from "../../app/components/cardhead"
+//import { Headsheetcard } from "../../app/components/cardhead"
 import { CompanyHeadCard } from "../../app/components/companyHeadCARD"
 
 export const CompanyPage = () => {
@@ -37,13 +37,13 @@ export const CompanyPage = () => {
       </View>
 
 
-      {companies.length > 0 ? (
+      {companies && companies.length > 0 ? (
         <FlatList
           data={companies}
           style={{ borderRadius: 5, width: '95%' }}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item : Company) => item.id.toString()}
           renderItem={({ item }) => (
-            <View key={item.id}>
+            <View key={item.id.toString()}>
               <CompanyHeadCard data={item} />
             </View>)}
         />

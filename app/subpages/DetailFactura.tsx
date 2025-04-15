@@ -17,13 +17,11 @@ import {
   FacturaNumber,
 } from "../../app/storage/company";
 import {
-  HeadCouting,
-  filterHeadCoutingBytitle,
+  HeadCouting
 } from "../../app/storage/headCouting";
 import {
   CoutingDatail,
-  filterLinesByHeadFactura,
-  getCouting,
+  filterLinesByHeadFactura
 } from "../../app/storage/couting";
 import { getFormattedDate } from "../../app/modals/crear_service_detail";
 
