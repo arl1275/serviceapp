@@ -23,8 +23,8 @@ export const Homepage: React.FC = () => {
 
       <View
         style={{
-          alignItems : 'center',
-          justifyContent : 'space-around',
+          alignItems: "center",
+          justifyContent: "space-around",
           bottom: 0,
           width: "100%",
         }}
@@ -34,13 +34,12 @@ export const Homepage: React.FC = () => {
             styles.mainsecctionbutton,
             { margin: 0, backgroundColor: "black" },
           ]}
-          onPress={()=>{navigation.navigate('facturas')}}
+          onPress={() => {
+            navigation.navigate("facturas");
+          }}
         >
           <Text
-            style={[
-              styles.bigtitle,
-              { textAlign: "center", color: "white" },
-            ]}
+            style={[styles.bigtitle, { textAlign: "center", color: "white" }]}
           >
             FACTURACION
           </Text>

@@ -184,7 +184,7 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
             <Text style={{ width: "50%" }}>{item.detail}</Text>
             <Text style={{ width: "10%" }}>{item.cantidad}</Text>
             <Text style={{ width: "10%" }}>{item.descuento}</Text>
-            <Text style={{ width: "10%" }}>{item.price}</Text>
+            <Text style={{ width: "10%"}}>{item.price}</Text>
           </View>
         )}
       />
@@ -207,8 +207,8 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
 
           {/* Valores */}
           <View style={{ flexDirection: "row", padding: 8 }}>
-            <Text style={{ flex: 1 }}>Total</Text>
-            <Text style={{ flex: 1, textAlign: "right" }}>
+            <Text style={{ flex: 1, fontWeight : 'bold', fontSize : 20}}>Total</Text>
+            <Text style={{ flex: 1, textAlign: "right" , fontWeight : 'bold', fontSize : 20 }}>
               {FacturaDetail.reduce((acc, item) => acc + item.price, 0).toFixed(
                 2
               )}
@@ -225,7 +225,7 @@ export const FacturaDetail = ({ route }: FacturaDetailProps) => {
           </View>
 
           <View style={{ flexDirection: "row", padding: 8 }}>
-            <Text style={{ flex: 1 }}>Sub-Total (85%)</Text>
+            <Text style={{ flex: 1 }}>Sub-Total</Text>
             <Text style={{ flex: 1, textAlign: "right" }}>
               {(
                 FacturaDetail.reduce((acc, item) => acc + item.price, 0) * 0.85
